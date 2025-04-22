@@ -1,0 +1,30 @@
+<div>
+  <!-- Encabezado -->
+  <div
+    class="navbar flex justify-between border-b-accent border-b-2 p-1 bg-base-100 shadow-sm mb-4"
+  >
+    <div>
+      <h1
+        class="px-4 py-1 rounded-full bg-accent text-base-100 text-lg font-bold shadow-md"
+      >
+        Roles
+      </h1>
+    </div>
+    <div>
+      <a class="btn btn-accent" routerLink="/admin/roles/create">Crear</a>
+    </div>
+  </div>
+  <!-- Encabezado -->
+  <!-- Tabla -->
+  @if (rolesResource.error()) {
+    <is-error />
+  } @else if (rolesResource.isLoading()) {
+    <is-loading />
+  } @else if (rolesResource.hasValue()) {
+    <!-- <products-table [products]="rolesResource.value()!" /> -->
+    <admin-roles-table [roles]="rolesResource.value()" />
+  } @else if (!rolesResource.hasValue()) {
+    <is-empty />
+  }
+  <!-- Tabla -->
+</div>

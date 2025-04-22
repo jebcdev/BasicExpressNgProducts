@@ -1,0 +1,321 @@
+// Importa las clases necesarias de Express para manejar solicitudes y respuestas HTTP.
+import { Request, Response } from "express";
+
+// Importa funciones de "class-transformer" para transformar datos planos a instancias de clases.
+import { plainToInstance } from "class-transformer";
+
+// Importa las funciones de "class-validator" para realizar validaciones de datos.
+import { validate, ValidationError } from "class-validator";
+
+// Importa tipos de TypeORM para manejar resultados de actualizaciones.
+import { UpdateResult } from "typeorm";
+
+// Importa las entidades y servicios que gestionan los usuarios.
+import { UserService } from "../services/user.service";
+
+// Importa los DTOs (Data Transfer Objects) para la creación y actualización de usuarios.
+import { CreateUserDto } from "../dtos/create-user.dto";
+import { UpdateUserDto } from "../dtos/update-user.dto";
+
+// Importa la entidad de usuario para las operaciones de base de datos.
+import { UserEntity } from "../entities/user.entity";
+import { BcryptUtil } from "../../../utils/bcrypt.util";
+
+export class UserController {
+    // Define una instancia del servicio de usuarios para interactuar con la base de datos.
+    private service: UserService;
+
+    constructor() {
+        // Inicializa el servicio de usuarios.
+        this.service = new UserService();
+    }
+
+    // Método para obtener todos los usuarios.
+    public async getAll(
+        _req: Request,
+        res: Response
+    ): Promise<Response> {
+        try {
+            // Llama al servicio para obtener todos los usuarios.
+            const data: UserEntity[] | null =
+                await this.service.getAll();
+
+            // Si no se encontraron usuarios, devuelve un error 404.
+            if (!data) return res.status(404).json("No Users Found");
+
+            // Formatea los datos para mostrar solo los campos deseados.
+            const formattedData = data.map((user) => ({
+                id: user.id,
+                name: user.name,
+                surname: user.surname,
+                email: user.email,
+                role: {
+                    id: user.role?.id,
+                    name: user.role?.name,
+                },
+                created_at: user.created_at,
+            }));
+
+            // Si los usuarios fueron encontrados, los devuelve con un mensaje de éxito.
+            return res.status(200).json(formattedData);
+        } catch (error) {
+            // Maneja cualquier error inesperado y devuelve un mensaje de error.
+            return res.status(500).json({
+                message: "Error Fetching Users  | UserController",
+                data:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+            });
+        }
+    }
+
+    // Método para obtener un usuario por su ID.
+    public async getById(
+        req: Request,
+        res: Response
+    ): Promise<Response> {
+        try {
+            // Extrae el ID del usuario de los parámetros de la solicitud.
+            const id = parseInt(req.params.id);
+
+            // Llama al servicio para obtener el usuario por ID.
+            const data = await this.service.getById(id);
+
+            // Si no se encuentra el usuario, devuelve un error 404.
+            if (!data) return res.status(404).json("User Not Found");
+
+            // Si el usuario fue encontrado, lo devuelve con un mensaje de éxito.
+            return res.status(200).json({
+                id: data?.id,
+                name: data?.name,
+                surname: data?.surname,
+                email: data?.email,
+                role: {
+                    id: data?.role?.id,
+                    name: data?.role?.name,
+                },
+                created_at: data.created_at,
+            });
+        } catch (error) {
+            // Maneja cualquier error inesperado y devuelve un mensaje de error.
+            return res.status(500).json({
+                message: "Error Fetching User | UserController",
+                data:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+            });
+        }
+    }
+
+    // Método para crear un nuevo usuario.
+    public async createNew(
+        req: Request,
+        res: Response
+    ): Promise<Response> {
+        try {
+            // Convierte el cuerpo de la solicitud (req.body) a una instancia del DTO de creación de usuario.
+            const dto: CreateUserDto = plainToInstance(
+                CreateUserDto,
+                req.body
+            );
+
+            // Valida los datos del DTO.
+            const errors: ValidationError[] = await validate(dto);
+
+            // Si hay errores de validación, los devuelve con un mensaje de error.
+            if (errors.length > 0) {
+                return res.status(400).json({
+                    message:
+                        "Validation Error | UserController CreateNew",
+                    errors: errors.map((err) => {
+                        return {
+                            property: err.property,
+                            constraints: err.constraints,
+                        };
+                    }),
+                });
+            }
+
+            // Verifica si el usuario ya existe en la base de datos por su nombre.
+            const exists: UserEntity | null =
+                await this.service.getByEmail(dto.email);
+
+            // Si el usuario ya existe, devuelve un mensaje de error.
+            if (exists) {
+                return res
+                    .status(400)
+                    .json(`User Already Exists: ${exists.name}`);
+            }
+
+            // Hashea la contraseña antes de guardarla en la base de datos.
+            dto.password = await BcryptUtil.hashPassword(
+                dto.password
+            );
+
+            // Crea el nuevo usuario usando el servicio y el DTO.
+            const data: UserEntity | null =
+                await this.service.createNew(
+                    plainToInstance(UserEntity, dto)
+                );
+
+            // Si hubo un error al crear el usuario, devuelve un mensaje de error.
+            if (!data)
+                return res.status(500).json("Error Creating User");
+
+            const newUserData: UserEntity | null =
+                await this.service.getById(data.id);
+
+            if (!newUserData)
+                return res
+                    .status(500)
+                    .json("Error Fetching New User Data");
+
+            // Si el usuario fue creado correctamente, lo devuelve con un mensaje de éxito.
+            return res.status(201).json({
+                id: newUserData?.id,
+                name: newUserData?.name,
+                surname: newUserData?.surname,
+                email: newUserData?.email,
+                role: {
+                    id: newUserData?.role?.id,
+                    name: newUserData?.role?.name,
+                },
+                created_at: newUserData?.created_at,
+            });
+        } catch (error) {
+            // Maneja cualquier error inesperado y devuelve un mensaje de error.
+            return res.status(500).json({
+                message: "Error Fetching Users  | UserController",
+                data:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+            });
+        }
+    }
+
+    // Método para actualizar un usuario por su ID.
+    public async updateById(
+        req: Request,
+        res: Response
+    ): Promise<Response> {
+        try {
+            // Extrae el ID del usuario de los parámetros de la solicitud.
+            const id = parseInt(req.params.id);
+
+            // Llama al servicio para obtener el usuario por ID.
+            const toUpdate: UserEntity | null =
+                await this.service.getById(id);
+
+            // Si no se encuentra el usuario, devuelve un error 404.
+            if (!toUpdate)
+                return res.status(404).json("User Not Found");
+
+            // Convierte el cuerpo de la solicitud a una instancia del DTO de actualización de usuario.
+            const dto: UpdateUserDto = plainToInstance(
+                UpdateUserDto,
+                req.body
+            );
+
+            // Valida los datos del DTO.
+            const errors: ValidationError[] = await validate(dto);
+
+            // Si hay errores de validación, los devuelve con un mensaje de error.
+            if (errors.length > 0) {
+                return res.status(400).json({
+                    message:
+                        "Validation Error | UserController UpdateById",
+                    errors: errors.map((err) => {
+                        return {
+                            property: err.property,
+                            constraints: err.constraints,
+                        };
+                    }),
+                });
+            }
+
+            // verifica si viene la contraseña para actualizarla
+            if (dto.password)
+                dto.password = await BcryptUtil.hashPassword(
+                    dto.password
+                );
+
+            // Actualiza el usuario por su ID usando el servicio.
+            const updatedData: UpdateResult | null =
+                await this.service.updateById(
+                    id,
+                    plainToInstance(UserEntity, dto)
+                );
+
+            // Si hubo un error al actualizar, devuelve un mensaje de error.
+            if (!updatedData)
+                return res.status(500).json("Error Updating User");
+
+            // Llama al servicio para obtener el usuario actualizado por su ID.
+            const data: UserEntity | null =
+                await this.service.getById(id);
+
+            // Si la actualización fue exitosa, devuelve el usuario actualizado con un mensaje de éxito.
+            return res.status(200).json({
+                id: data?.id,
+                name: data?.name,
+                surname: data?.surname,
+                email: data?.email,
+                role: {
+                    id: data?.role?.id,
+                    name: data?.role?.name,
+                },
+                created_at: data?.created_at,
+            });
+        } catch (error) {
+            // Maneja cualquier error inesperado y devuelve un mensaje de error.
+            return res.status(500).json({
+                message: "Error Fetching Users  | UserController",
+                data:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+            });
+        }
+    }
+
+    // Método para eliminar un usuario por su ID.
+    public async deleteById(
+        req: Request,
+        res: Response
+    ): Promise<Response> {
+        try {
+            // Extrae el ID del usuario de los parámetros de la solicitud.
+            const id = parseInt(req.params.id);
+
+            // Llama al servicio para obtener el usuario por ID.
+            const data: UserEntity | null =
+                await this.service.getById(id);
+
+            // Si no se encuentra el usuario, devuelve un error 404.
+            if (!data) return res.status(404).json("User Not Found");
+
+            // Llama al servicio para eliminar el usuario por su ID.
+            const deleteResult = await this.service.deleteById(id);
+
+            // Si hubo un error al eliminar el usuario, devuelve un mensaje de error.
+            if (!deleteResult) 
+                return res.status(500).json("Error Deleting User");
+            
+
+            // Si el usuario fue eliminado exitosamente, devuelve un mensaje de éxito.
+            return res.status(200).json("User Deleted Successfully");
+        } catch (error) {
+            // Maneja cualquier error inesperado y devuelve un mensaje de error.
+            return res.status(500).json({
+                message: "Error Fetching Users  | UserController",
+                data:
+                    error instanceof Error
+                        ? error.message
+                        : String(error),
+            });
+        }
+    }
+}

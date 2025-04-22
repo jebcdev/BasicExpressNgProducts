@@ -1,0 +1,26 @@
+<span class="block text-lg font-extrabold text-center"> Menú</span>
+<div class="divider"></div>
+<ul class="menu">
+  @for (item of menuItems(); track $index) {
+    <li class="mb-1">
+      <a
+        [routerLink]="item.path"
+        routerLinkActive="bg-primary text-white"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i [class]="item.icon"></i> {{ item.label }}</a
+      >
+    </li>
+  }
+</ul>
+<div class="divider"></div>
+<ul class="menu">
+  <li class="menu">
+    <a [routerLink]="'/'"> <i class="fas fa-home"></i> Inicio </a>
+  </li>
+  <li class="menu">
+    <button class="btn btn-error" (click)="logout()">
+      <i class="fas fa-sign-out-alt"></i> Salir
+    </button>
+  </li>
+</ul>

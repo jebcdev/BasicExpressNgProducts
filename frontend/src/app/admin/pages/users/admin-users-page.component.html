@@ -1,0 +1,29 @@
+<div>
+  <!-- Encabezado -->
+  <div
+    class="navbar flex justify-between border-b-accent border-b-2 p-1 bg-base-100 shadow-sm mb-4"
+  >
+    <div>
+      <h1
+        class="px-4 py-1 rounded-full bg-accent text-base-100 text-lg font-bold shadow-md"
+      >
+        Usuarios
+      </h1>
+    </div>
+    <div>
+      <a class="btn btn-accent" routerLink="/admin/users/create">Crear</a>
+    </div>
+  </div>
+  <!-- Encabezado -->
+  <!-- Tabla -->
+  @if (usersResource.error()) {
+    <is-error />
+  } @else if (usersResource.isLoading()) {
+    <is-loading />
+  } @else if (usersResource.hasValue()) {
+    <admin-users-table [users]="usersResource.value()" />
+  } @else if (!usersResource.hasValue()) {
+    <is-empty />
+  }
+  <!-- Tabla -->
+</div>
