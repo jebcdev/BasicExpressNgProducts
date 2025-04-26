@@ -18,12 +18,14 @@ import { BcryptUtil } from "../../../utils/bcrypt.util";
 
 // Importa la función plainToClass para convertir objetos planos en instancias de clases.
 import { plainToClass } from "class-transformer";
+import { CategoryEntity } from "../../dashboard/categories/entities/category.entity";
 
 // Define la clase SeederController que se encargará de crear roles y usuarios de prueba en la base de datos.
 export class SeederController {
     // Define dos repositorios privados para interactuar con las tablas de roles y usuarios.
     private roleRepository: Repository<RoleEntity>;
     private userRepository: Repository<UserEntity>;
+    private categoryRepository: Repository<CategoryEntity>; // Repositorio para la entidad CategoryEntity.
 
     // Constructor de la clase que inicializa los repositorios utilizando la conexión a la base de datos.
     constructor() {
@@ -35,6 +37,11 @@ export class SeederController {
         this.userRepository =
             DatabaseConnection.appDataSource.getRepository(
                 UserEntity // Obtiene el repositorio para la entidad UserEntity.
+            );
+
+        this.categoryRepository =
+            DatabaseConnection.appDataSource.getRepository(
+                CategoryEntity // Obtiene el repositorio para la entidad UserEntity.
             );
     }
 
@@ -129,6 +136,55 @@ export class SeederController {
             return res.status(500).json({
                 message: "Error Seeding Roles and Users", // Mensaje de error.
                 data: error, // Información detallada del error.
+            });
+        }
+    }
+
+    // Método público asincrónico que siembra categorías en la base de datos.
+    public async seedCategories(
+        _: Request, // No se usa la solicitud (por eso el guion bajo).
+        res: Response // Respuesta HTTP que se enviará al cliente.
+    ): Promise<Response> {
+        try {
+            // Crea y guarda una categoría de ejemplo en la base de datos.
+            const category1 = await this.categoryRepository.save(
+                plainToClass(CategoryEntity, {
+                    name: "Electronics", // Nombre de la categoría.
+                    slug: "electronics", // Slug único para la categoría.
+                    description: "Category for electronic products", // Descripción de la categoría.
+                    image: "electronics.jpg", // Imagen asociada a la categoría.
+                })
+            );
+
+            const category2 = await this.categoryRepository.save(
+                plainToClass(CategoryEntity, {
+                    name: "Books", // Nombre de la categoría.
+                    slug: "books", // Slug único para la categoría.
+                    description: "Category for books and literature", // Descripción de la categoría.
+                    image: "books.jpg", // Imagen asociada a la categoría.
+                })
+            );
+
+            const category3 = await this.categoryRepository.save(
+                plainToClass(CategoryEntity, {
+                    name: "Clothing", // Nombre de la categoría.
+                    slug: "clothing", // Slug único para la categoría.
+                    description: "Category for clothing and apparel", // Descripción de la categoría.
+                    image: "clothing.jpg", // Imagen asociada a la categoría.
+                })
+            );
+
+            // Devuelve una respuesta HTTP 200 con un mensaje de éxito y los datos de las categorías creadas.
+            return res.status(200).json({
+                message: "Categories seeded successfully",
+                categories: [category1, category2, category3],
+            });
+        } catch (error:any) {
+            // En caso de error, devuelve una respuesta HTTP 500 con un mensaje de error y la información del error.
+            console.log(error);
+            return res.status(500).json({
+                message: "Error Seeding Categories",
+                data: error,
             });
         }
     }

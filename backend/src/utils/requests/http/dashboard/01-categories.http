@@ -1,0 +1,46 @@
+@loginUrl = http://localhost:4000/api/v1/auth/login
+@baseUrl= http://localhost:4000/api/v1/dashboard/categories
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InJvbGVfaWQiOjEsInVzZXJfaWQiOjF9LCJpYXQiOjE3NDU2MzIwNjMsImV4cCI6MTc0NTYzNTY2M30.Eqi02o6q0uPYt33Fq6B5q5IQAc6zugDvHkTUVxCsxJ0
+
+POST {{loginUrl}} HTTP/1.1
+content-type: application/json
+
+{
+    "email": "admin@admin.com",
+    "password": "12345678"
+}
+###
+
+
+GET {{baseUrl}} HTTP/1.1
+Authorization: Bearer {{token}}
+###
+
+GET {{baseUrl}}/4 HTTP/1.1
+Authorization: Bearer {{token}}
+###
+
+POST {{baseUrl}} HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{
+    "name": "Software Development",
+    "slug": "software-development",
+    "description": "Software Development",
+    "image": "https://example.com/image.jpg"
+}
+###
+
+PATCH {{baseUrl}}/4 HTTP/1.1
+Authorization: Bearer {{token}}
+content-type: application/json
+
+{
+"description": "Software Development Upgrade: Test"
+}
+###
+
+DELETE {{baseUrl}}/4 HTTP/1.1
+Authorization: Bearer {{token}}
+###
