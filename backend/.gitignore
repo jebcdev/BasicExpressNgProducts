@@ -1,2 +1,6 @@
-/dist/
+/dist/*
+!/dist/public/
+/dist/public/*
+!/dist/public/uploads/
+/dist/public/uploads/categories/
 /node_modules/

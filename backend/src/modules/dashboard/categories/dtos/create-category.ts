@@ -17,9 +17,9 @@ export class CreateCategoryDto {
     @Length(4, 255) 
     description: string;
 
-    @IsNotEmpty() 
-    @IsString() 
-    @Length(4, 255) 
+    // @IsNotEmpty() 
+    // @IsString() 
+    // @Length(4, 255) 
     image: string;
  
 }

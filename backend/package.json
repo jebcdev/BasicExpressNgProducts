@@ -37,9 +37,11 @@
         "helmet": "^8.0.0",
         "jsonwebtoken": "9.0.2",
         "morgan": "1.10.0",
+        "multer": "1.4.5-lts.2",
         "pg": "^8.15.1",
         "reflect-metadata": "^0.2.2",
-        "typeorm": "^0.3.20"
+        "typeorm": "^0.3.20",
+        "uuid": "11.1.0"
     },
     "devDependencies": {
         "@types/bcryptjs": "^2.4.6",
@@ -49,7 +51,9 @@
         "@types/helmet": "^0.0.48",
         "@types/jsonwebtoken": "^9.0.8",
         "@types/morgan": "^1.9.9",
+        "@types/multer": "^1.4.12",
         "@types/node": "^22.10.6",
-        "@types/reflect-metadata": "^0.0.5"
+        "@types/reflect-metadata": "^0.0.5",
+        "@types/uuid": "^10.0.0"
     }
 }

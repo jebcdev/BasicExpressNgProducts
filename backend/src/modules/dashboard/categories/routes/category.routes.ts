@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { CategoryController } from "../controllers/category.controller";
 import { VerifyIdMiddleware } from "../../../../core/middlewares/verifyId.middleware";
+import { uploadCategoryImage } from "../../../../core/middlewares/uploadCategoryImage.middleware";
 
 export class CategoryRoutes {
     public readonly router: Router;
@@ -32,11 +33,12 @@ export class CategoryRoutes {
             getById.bind(this.controller)
         );
 
-        this.router.post("/", createNew.bind(this.controller));
+        this.router.post("/", uploadCategoryImage.single('image'), createNew.bind(this.controller));
 
         this.router.patch(
             "/:id",
             VerifyIdMiddleware.validate,
+            uploadCategoryImage.single('image'),
             updateById.bind(this.controller)
         );
 

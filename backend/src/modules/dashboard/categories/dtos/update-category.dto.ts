@@ -23,9 +23,9 @@ export class UpdateCategoryDto {
     @Length(4, 255)
     description: string;
 
-    @IsOptional()
-    @IsNotEmpty()
-    @IsString()
-    @Length(4, 255)
+    // @IsOptional()
+    // @IsNotEmpty()
+    // @IsString()
+    // @Length(4, 255)
     image: string;
 }
