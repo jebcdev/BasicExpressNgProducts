@@ -49,6 +49,6 @@ export class RootRoutes {
         ); // Registrar las rutas del dashboard
         
         this.router.use("/auth", new AuthRoutes().router); // Registrar las rutas de autenticación
-        this.router.use("/seed", new SeederRoutes().router); // Registrar las rutas de seeder
+        this.router.use("/seeder", new SeederRoutes().router); // Registrar las rutas de seeder
     }
 }

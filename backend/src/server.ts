@@ -41,7 +41,10 @@ export class Server {
         this.app.use(express.urlencoded({ extended: true })); // Analizar el cuerpo de las peticiones codificado como urlencoded
     
         // Ajusta la ruta para servir archivos estáticos desde dist/public
-        this.app.use('/public', express.static(path.join(__dirname, "public")));
+        this.app.use('/public', express.static(path.join(__dirname, "public")))
+        this.app.use('/public/uploads/categories', express.static(path.join(__dirname, "public/uploads/categories")))
+        
+        ;
     }
 
     // Método privado para configurar las rutas

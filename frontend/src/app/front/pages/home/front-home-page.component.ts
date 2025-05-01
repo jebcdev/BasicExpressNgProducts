@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth/services/auth.service';
+import { environment } from '@env/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -16,6 +17,7 @@ import { AuthService } from '@auth/services/auth.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FrontHomePageComponent {
+  title=computed<string>(()=>environment.appName);
   private _authService: AuthService = inject(AuthService);
   currentYear = new Date().getFullYear();
 

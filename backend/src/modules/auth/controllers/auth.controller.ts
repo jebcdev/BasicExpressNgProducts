@@ -315,10 +315,12 @@ export class AuthController {
                 await this.service.getByEmail(dto.email);
 
             // Si el usuario ya existe, devuelve un mensaje de error.
-            if (exists && exists.email !== dto.email) {
-                return res
-                    .status(400)
-                    .json(`User Already Exists: ${exists.name}`);
+            if (dto.email) {
+                if (exists && exists.email !== dto.email) {
+                    return res
+                        .status(400)
+                        .json(`User Already Exists: ${exists.name}`);
+                }
             }
 
             if (dto.password)

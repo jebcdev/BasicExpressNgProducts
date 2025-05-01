@@ -2,7 +2,8 @@
 import {
     IsEmail,
     IsInt,
-    IsNotEmpty,
+    IsOptional,
+
     IsString,
     Length,
     Min,
@@ -11,7 +12,7 @@ import {
 // Define una clase DTO (Data Transfer Object) para la creación de usuarios.
 export class UpdateUserDto {
     // Valida que el campo "name" no esté vacío.
-    @IsNotEmpty()
+    @IsOptional()
     // Valida que el campo "name" sea una cadena de texto.
     @IsString()
     // Restringe la longitud del nombre entre 4 y 100 caracteres.
@@ -19,7 +20,7 @@ export class UpdateUserDto {
     name: string;
 
     // Valida que el campo "name" no esté vacío.
-    @IsNotEmpty()
+    @IsOptional()
     // Valida que el campo "name" sea una cadena de texto.
     @IsString()
     // Restringe la longitud del nombre entre 4 y 100 caracteres.
@@ -27,7 +28,7 @@ export class UpdateUserDto {
     surname: string;
 
     // Valida que el campo "email" no esté vacío.
-    @IsNotEmpty()
+    @IsOptional()
     // Valida que el campo "email" sea una cadena de texto.
     @IsString()
     // Restringe la longitud del correo electrónico entre 4 y 100 caracteres.
@@ -37,7 +38,7 @@ export class UpdateUserDto {
     email: string;
 
     // Valida que el campo "email" no esté vacío.
-    @IsNotEmpty()
+    @IsOptional()
     // Valida que el campo "email" sea una cadena de texto.
     @IsString()
     // Restringe la longitud del correo electrónico entre 4 y 100 caracteres.
@@ -45,7 +46,7 @@ export class UpdateUserDto {
     password: string;
 
     // Indica que el campo "role" es opcional en la solicitud.
-    @IsNotEmpty()
+    @IsOptional()
     @IsInt() // Asegura que sea un número entero
     @Min(1) // Evita valores menores que 1
     role_id: number;
