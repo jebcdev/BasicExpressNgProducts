@@ -15,39 +15,17 @@ export const adminRoutes: Routes = [
       {
         path: 'roles',
         title: 'Roles',
-        loadComponent: () =>
-          import('@admin/pages/roles/admin-roles-page.component'),
+        loadChildren: () => import('@admin/pages/roles/roles.routes'),
       },
-      {
-        path: 'roles/create',
-        title: 'Create Roles',
-        loadComponent: () =>
-          import('@admin/pages/roles/create/admin-roles-create-page.component'),
-      },
-      {
-        path: 'roles/edit/:id',
-        title: 'Edit Roles',
-        loadComponent: () =>
-          import('@admin/pages/roles/edit/admin-roles-edit-page.component'),
-      },
-
       {
         path: 'users',
         title: 'Users',
-        loadComponent: () =>
-          import('@admin/pages/users/admin-users-page.component'),
+        loadChildren: () => import('@admin/pages/users/users.routes'),
       },
       {
-        path: 'users/create',
-        title: 'Create Users',
-        loadComponent: () =>
-          import('@admin/pages/users/create/admin-users-create-page.component'),
-      },
-      {
-        path: 'users/edit/:id',
-        title: 'Edit Users',
-        loadComponent: () =>
-          import('@admin/pages/users/edit/admin-users-edit-page.component'),
+        path: 'categories',
+        title: 'Categories',
+        loadChildren: () => import('@admin/pages/categories/categories.routes'),
       },
 
       {

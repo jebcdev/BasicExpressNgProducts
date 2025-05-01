@@ -4,19 +4,12 @@
   <div class="card w-full max-w-xl shadow-xl bg-base-100">
     <div class="card-body items-center text-center">
       <h1 class="card-title text-3xl font-bold mb-2">
-        {{title()}}
+        {{ title() }}
       </h1>
       <p class="mb-4 text-lg">
-        Esta es una aplicación básica de gestión de autenticación construida con
-        Angular. Aquí puedes registrarte, iniciar sesión y administrar tus
-        credenciales de manera segura y sencilla.
+        Esta es una aplicación básica de gestión de Productos
       </p>
-      <ul class="list-disc list-inside text-left mb-6">
-        <li>Registro y autenticación de usuarios</li>
-        <li>Gestión de sesiones</li>
-        <li>Protección de rutas privadas</li>
-        <li>Interfaz moderna y responsiva con DaisyUI</li>
-      </ul>
+
       @if (authStatus() !== "authenticated") {
         <div class="flex flex-col gap-2 w-full">
           <a routerLink="/auth/login" class="btn btn-primary w-full"

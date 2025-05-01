@@ -17,7 +17,7 @@ import { environment } from '@env/environment';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FrontHomePageComponent {
-  title=computed<string>(()=>environment.appName);
+  title = computed<string>(() => environment.appName);
   private _authService: AuthService = inject(AuthService);
   currentYear = new Date().getFullYear();
 

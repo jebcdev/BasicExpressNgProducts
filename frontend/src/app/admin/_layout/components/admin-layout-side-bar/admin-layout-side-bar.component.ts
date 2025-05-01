@@ -23,6 +23,7 @@ export class AdminLayoutSideBarComponent {
     { path: '/admin', label: 'Dashboard', icon: 'fab fa-dashcube' },
     { path: '/admin/roles', label: 'Roles', icon: 'fas fa-user-tag' },
     { path: '/admin/users', label: 'Usuarios', icon: 'fas fa-users' },
+    { path: '/admin/categories', label: 'Categorias', icon: 'fas fa-tags' },
   ]);
 
   logout(): void {
