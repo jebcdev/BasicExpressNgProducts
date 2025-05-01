@@ -27,7 +27,11 @@ export class Server {
         this.app.use(morgan("dev")); // Logger para las peticiones HTTP
     
         // Configuración de CORS para permitir todo
-        this.app.use(cors({ origin: "*", methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"] }));
+        this.app.use(cors({ 
+            origin: "*", 
+            methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            exposedHeaders: ['Content-Type', 'Authorization'] 
+        }));
     
         // Configuración de Helmet para relajar restricciones en desarrollo
         this.app.use(
