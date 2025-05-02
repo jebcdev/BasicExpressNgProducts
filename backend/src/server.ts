@@ -28,8 +28,8 @@ export class Server {
     
         // Configuración de CORS para permitir todo
         this.app.use(cors({ 
-            origin: "*", 
-            methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+            origin: ["*", "http://localhost:4200"], // Permitir los orígenes
+            methods: ["GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"],
             exposedHeaders: ['Content-Type', 'Authorization'] 
         }));
     
