@@ -91,6 +91,15 @@
                       Eliminar
                     </button>
                   </div>
+                } @else if (cell.column.id === "image") {
+                  <div class="flex justify-end gap-2">
+                    <img
+                      class="w-16 h-16 rounded-full"
+                      [src]="backendUrl + row.original.image"
+                      [alt]="row.original.name"
+                      (error)="handleImageError($event)"
+                    />
+                  </div>
                 } @else {
                   <ng-container
                     *flexRender="

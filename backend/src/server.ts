@@ -30,6 +30,7 @@ export class Server {
         this.app.use(cors({ 
             origin: ["*", "http://localhost:4200"], // Permitir los orígenes
             methods: ["GET", "POST", "PUT","PATCH", "DELETE", "OPTIONS"],
+            allowedHeaders: ['Content-Type', 'Authorization'],
             exposedHeaders: ['Content-Type', 'Authorization'] 
         }));
     
@@ -40,7 +41,11 @@ export class Server {
                 crossOriginEmbedderPolicy: false, // Desactiva restricciones de origen cruzado
             })
         );
-    
+        
+        this.app.use((req, res, next) => {
+            res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+            next();
+        });
         this.app.use(express.json()); // Analizar el cuerpo de las peticiones en formato JSON
         this.app.use(express.urlencoded({ extended: true })); // Analizar el cuerpo de las peticiones codificado como urlencoded
     

@@ -27,6 +27,9 @@ import categoriesTableColumns from './categories-table-columns.definition';
 import { toast } from 'ngx-sonner';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+
+import { environment } from '@env/environment';
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-categories-table',
@@ -40,6 +43,7 @@ export class AdminCategoriesTableComponent {
   private _categoriesService: CategoriesService = inject(CategoriesService);
   private _router: Router = inject(Router);
   categories = input.required<iCategory[]>();
+  public readonly backendUrl = environment.backendUrl;
 
   /*  */
 
@@ -185,6 +189,12 @@ export class AdminCategoriesTableComponent {
         description: 'Error al Eliminar el Usuario, por favor intente de nuevo',
       });
     }
+  }
+  handleImageError(event: Event) {
+    const imgElement = event.target as HTMLImageElement;
+    imgElement.src = './assets/images/no-image.png'; // Ruta a tu imagen por defecto
+    // Alternativa: usar una URL externa para imagen por defecto
+    // imgElement.src = 'https://via.placeholder.com/150?text=Sin+Imagen';
   }
 }
 
