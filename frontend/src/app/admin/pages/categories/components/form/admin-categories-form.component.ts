@@ -18,7 +18,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { from } from 'rxjs';
-import { iCategory } from '@auth/interfaces';
+// import { iCategory } from '@auth/interfaces';
 import { CategoriesService } from '@admin/services/categories.service';
 import { generateSlug } from '@shared/utils/generate-slug.util';
 @Component({
@@ -141,21 +141,30 @@ export class AdminCategoriesFormComponent {
         return;
       }
 
-      const imageFile = this.form.get('image')?.value;
+      /*       const imageFile = this.form.get('image')?.value;
       const data: iCategory = {
         id: this.isCreateMode() ? 0 : this.categoryId()!,
         name: this.form.value.name,
         slug: this.form.value.slug,
         description: this.form.value.description,
         image: imageFile,
-      };
+      }; */
+      const data = new FormData();
+      data.append('name', this.form.value.name);
+      data.append('slug', this.form.value.slug);
+      data.append('description', this.form.value.description);
 
-      console.log(data);
+      const imageFile = this.form.get('image')?.value;
+      if (imageFile) {
+        data.append('image', imageFile);
+      }
+      // console.log(data);
       if (this.isCreateMode()) {
         this._categoriesService.create(data).subscribe({
           next: () => {
             toast.success('Registro Creado', {
-              description: `El registro: ${data.name}, se creó correctamente `,
+              description: `El registro: ${this.form.value.name}, se creó correctamente `,
+              // description: `El registro: ${data.name}, se creó correctamente `,
               duration: 3000,
             });
             this._router.navigateByUrl('/admin/categories');
@@ -173,7 +182,8 @@ export class AdminCategoriesFormComponent {
         this._categoriesService.updateById(this.categoryId()!, data).subscribe({
           next: () => {
             toast.success('Registro Actualizado', {
-              description: `El registro: ${data.name}, se actualizó correctamente `,
+              description: `El registro: ${this.form.value.name}, se actualizó correctamente `,
+              // description: `El registro: ${data.name}, se actualizó correctamente `,
               duration: 3000,
             });
             this._router.navigateByUrl('/admin/categories');

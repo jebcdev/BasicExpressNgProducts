@@ -21,7 +21,8 @@ export class CategoriesService {
     return this._http.get<iCategory>(`${API_URL}/${id}`);
   }
 
-  create(data: iCategory): Observable<iCategory> {
+  // create(data: iCategory): Observable<iCategory> {
+  create(data: FormData): Observable<iCategory> {
     return this._http.post<iCategory>(API_URL, data).pipe(
       tap((data) => {
         return data;
@@ -33,7 +34,8 @@ export class CategoriesService {
     );
   }
 
-  updateById(id: number, data: iCategory): Observable<iCategory> {
+  updateById(id: number, data: FormData): Observable<iCategory> {
+    // updateById(id: number, data: iCategory): Observable<iCategory> {
     return this._http.patch<iCategory>(`${API_URL}/${id}`, data).pipe(
       tap((data) => {
         return data;

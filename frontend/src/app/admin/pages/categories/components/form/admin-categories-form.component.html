@@ -9,7 +9,12 @@
       </h2>
 
       <!-- Formulario -->
-      <form class="mt-4 space-y-4" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <form
+        class="mt-4 space-y-4"
+        enctype="multipart/form-data"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+      >
         <!-- Nombre -->
         <div class="form-control">
           <label class="label" for="name">

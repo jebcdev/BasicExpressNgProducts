@@ -182,7 +182,7 @@ export class CategoryController {
                 if (toUpdate.image) {
                     deleteFile(toUpdate.image); // Aquí ahora ya pasa el path tal cual /uploads/categories/abc123.png
                 }
-                toUpdate.image = `/uploads/categories/${req.file.filename}`; // Guarda nueva ruta
+                toUpdate.image = `/public/uploads/categories/${req.file.filename}`; // Guarda nueva ruta
             }
     
             toUpdate.name = dto.name || toUpdate.name;
