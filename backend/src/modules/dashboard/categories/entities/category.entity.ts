@@ -35,7 +35,7 @@ export class CategoryEntity extends BaseEntity {
 
     @Column({
         length: 255,
-        nullable: false,
+        nullable: true,
     })
     image: string;
 

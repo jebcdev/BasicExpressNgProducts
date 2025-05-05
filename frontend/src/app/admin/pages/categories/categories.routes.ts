@@ -7,6 +7,22 @@ export const categoriesRoutes: Routes = [
     loadComponent: () =>
       import('@admin/pages/categories/admin-categories-page.component'),
   },
+  {
+    path: 'create',
+    title: 'Create Category',
+    loadComponent: () =>
+      import(
+        '@admin/pages/categories/create/admin-categories-create-page.component'
+      ),
+  },
+  {
+    path: 'edit/:id',
+    title: 'Edit Category',
+    loadComponent: () =>
+      import(
+        '@admin/pages/categories/edit/admin-categories-edit-page.component'
+      ),
+  },
 ];
 
 export default categoriesRoutes;
