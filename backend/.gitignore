@@ -2,5 +2,8 @@
 !/dist/public/
 /dist/public/*
 !/dist/public/uploads/
-/dist/public/uploads/categories/
+/dist/public/uploads/*
+!/dist/public/uploads/categories/
+/dist/public/uploads/categories/*
+!/dist/public/uploads/categories/.gitkeep
 /node_modules/
