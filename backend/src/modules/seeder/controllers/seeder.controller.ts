@@ -19,6 +19,7 @@ import { BcryptUtil } from "../../../utils/bcrypt.util";
 // Importa la función plainToClass para convertir objetos planos en instancias de clases.
 import { plainToClass } from "class-transformer";
 import { CategoryEntity } from "../../dashboard/categories/entities/category.entity";
+import { BrandEntity } from "../../dashboard/brands/entities/brand.entity";
 
 // Define la clase SeederController que se encargará de crear roles y usuarios de prueba en la base de datos.
 export class SeederController {
@@ -26,6 +27,7 @@ export class SeederController {
     private roleRepository: Repository<RoleEntity>;
     private userRepository: Repository<UserEntity>;
     private categoryRepository: Repository<CategoryEntity>; // Repositorio para la entidad CategoryEntity.
+    private brandRepository: Repository<BrandEntity>; // Repositorio para la entidad BrandEntity.
 
     // Constructor de la clase que inicializa los repositorios utilizando la conexión a la base de datos.
     constructor() {
@@ -41,7 +43,12 @@ export class SeederController {
 
         this.categoryRepository =
             DatabaseConnection.appDataSource.getRepository(
-                CategoryEntity // Obtiene el repositorio para la entidad UserEntity.
+                CategoryEntity // Obtiene el repositorio para la entidad CategoryEntity.
+            );
+
+        this.brandRepository =
+            DatabaseConnection.appDataSource.getRepository(
+                BrandEntity // Obtiene el repositorio para la entidad BrandEntity.
             );
     }
 
@@ -188,4 +195,70 @@ export class SeederController {
             });
         }
     }
+
+    // Método público asincrónico que siembra marcas en la base de datos.
+    public async seedBrands(
+        _: Request,
+        res: Response
+    ): Promise<Response> {
+        try {
+            // Creamos varias marcas de computadores conocidas.
+            const brand1 = await this.brandRepository.save(
+                plainToClass(BrandEntity, {
+                    name: "Apple",
+                    slug: "apple",
+                    description: "Manufacturer of MacBooks and other electronics",
+                    image: "apple-logo.png",
+                })
+            );
+    
+            const brand2 = await this.brandRepository.save(
+                plainToClass(BrandEntity, {
+                    name: "Dell",
+                    slug: "dell",
+                    description: "Known for XPS and Inspiron laptops",
+                    image: "dell-logo.png",
+                })
+            );
+    
+            const brand3 = await this.brandRepository.save(
+                plainToClass(BrandEntity, {
+                    name: "Lenovo",
+                    slug: "lenovo",
+                    description: "Popular for ThinkPad and IdeaPad series",
+                    image: "lenovo-logo.png",
+                })
+            );
+    
+            const brand4 = await this.brandRepository.save(
+                plainToClass(BrandEntity, {
+                    name: "HP",
+                    slug: "hp",
+                    description: "Offers Pavilion, Envy and Spectre laptops",
+                    image: "hp-logo.png",
+                })
+            );
+    
+            const brand5 = await this.brandRepository.save(
+                plainToClass(BrandEntity, {
+                    name: "Asus",
+                    slug: "asus",
+                    description: "Known for ROG and ZenBook laptops",
+                    image: "asus-logo.png",
+                })
+            );
+    
+            return res.status(200).json({
+                message: "Brands seeded successfully",
+                brands: [brand1, brand2, brand3, brand4, brand5],
+            });
+        } catch (error: any) {
+            console.log(error);
+            return res.status(500).json({
+                message: "Error Seeding Brands",
+                data: error,
+            });
+        }
+    }
+    
 }

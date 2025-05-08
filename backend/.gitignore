@@ -5,5 +5,6 @@
 /dist/public/uploads/*
 !/dist/public/uploads/categories/
 /dist/public/uploads/categories/*
-!/dist/public/uploads/categories/.gitkeep
+!/dist/public/uploads/brands/
+/dist/public/uploads/brands/*
 /node_modules/
