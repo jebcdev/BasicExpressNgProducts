@@ -1,4 +1,4 @@
-import { CategoriesService } from '@admin/services/categories.service';
+import { BrandsService } from '@admin/services';
 
 import {
   ChangeDetectionStrategy,
@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { iCategory } from '@auth/interfaces';
+import { iBrand } from '@auth/interfaces';
 import {
   Column,
   ColumnFiltersState,
@@ -23,7 +23,7 @@ import {
   SortingState,
   VisibilityState,
 } from '@tanstack/angular-table';
-import categoriesTableColumns from './categories-table-columns.definition';
+import brandsTableColumns from './brands-table-columns.definition';
 import { toast } from 'ngx-sonner';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -32,20 +32,17 @@ import { environment } from '@env/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'admin-categories-table',
+  selector: 'admin-brands-table',
   imports: [CommonModule, FlexRenderDirective],
-  templateUrl: './admin-categories-table.component.html',
+  templateUrl: './admin-brands-table.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminCategoriesTableComponent {
-  //
-  private _categoriesService: CategoriesService = inject(CategoriesService);
+export class AdminBrandsTableComponent {
+  brands = input.required<iBrand[]>();
+  private _brandsService: BrandsService = inject(BrandsService);
   private _router: Router = inject(Router);
-  categories = input.required<iCategory[]>();
   public readonly backendUrl = environment.backendUrl;
-
-  /*  */
 
   private readonly _pagination = signal<PaginationState>({
     pageIndex: 0,
@@ -57,9 +54,9 @@ export class AdminCategoriesTableComponent {
   private readonly _columnFilter = signal<ColumnFiltersState>([]); // This is the column filter state that will be passed to the table
 
   public table = createAngularTable(() => ({
-    data: this.categories(),
+    data: this.brands(),
     getCoreRowModel: getCoreRowModel(),
-    columns: categoriesTableColumns,
+    columns: brandsTableColumns,
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -107,7 +104,7 @@ export class AdminCategoriesTableComponent {
     }
   }
 
-  onSort(col: Column<iCategory>) {
+  onSort(col: Column<iBrand>) {
     try {
       col.toggleSorting(col.getIsSorted() === 'asc');
     } catch (error) {
@@ -131,41 +128,37 @@ export class AdminCategoriesTableComponent {
     }
   }
 
-  onEdit(row: Row<iCategory>) {
+  onEdit(row: Row<iBrand>) {
     try {
-      if (
-        this._categoriesService.forbidenCategories().includes(row.original.id!)
-      ) {
-        toast.error('Ésta Categoría, No Puede ser Editada', {
+      if (this._brandsService.forbidenBrands().includes(row.original.id!)) {
+        toast.error('Ésta Marca, No Puede ser Editada', {
           description:
-            'Ésta categoría es una categoría de sistema y no puede ser editada',
+            'Ésta marca es una marca de sistema y no puede ser editada',
         });
         return;
       }
-      this._router.navigate(['admin/categories/edit', row.original.id]);
+      this._router.navigate(['admin/brands/edit', row.original.id]);
     } catch (error) {
       console.error(error);
-      toast.error('Error al Editar el Categoría', {
-        description: 'Error al Editar el Categoría, por favor intente de nuevo',
+      toast.error('Error al Editar el Marca', {
+        description: 'Error al Editar el Marca, por favor intente de nuevo',
       });
     }
   }
 
-  onDelete(row: Row<iCategory>) {
+  onDelete(row: Row<iBrand>) {
     try {
-      if (
-        this._categoriesService.forbidenCategories().includes(row.original.id!)
-      ) {
-        toast.error('Ésta Categoría, No Puede ser Eliminada', {
+      if (this._brandsService.forbidenBrands().includes(row.original.id!)) {
+        toast.error('Ésta Marca, No Puede ser Eliminada', {
           description:
-            'Ésta categoría es una categoría de sistema y no puede ser eliminada',
+            'Ésta marca es una marca de sistema y no puede ser eliminada',
         });
         return;
       }
       if (confirm('¿Está Seguro de Eliminar Éste Registro?')) {
-        this._categoriesService
+        this._brandsService
           .deleteById(row.original.id!)
-          .pipe(tap(() => this._categoriesService.getAll().subscribe()))
+          .pipe(tap(() => this._brandsService.getAll().subscribe()))
           .subscribe({
             next: () => {
               toast.success('Registro Eliminado', {
@@ -199,4 +192,4 @@ export class AdminCategoriesTableComponent {
   }
 }
 
-export default AdminCategoriesTableComponent;
+export default AdminBrandsTableComponent;

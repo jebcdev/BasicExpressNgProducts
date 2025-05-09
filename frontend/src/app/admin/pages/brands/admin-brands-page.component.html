@@ -1,0 +1,29 @@
+<div>
+  <!-- Encabezado -->
+  <div
+    class="navbar flex justify-between border-b-accent border-b-2 p-1 bg-base-100 shadow-sm mb-4"
+  >
+    <div>
+      <h1
+        class="px-4 py-1 rounded-full bg-accent text-base-100 text-lg font-bold shadow-md"
+      >
+        Marcas
+      </h1>
+    </div>
+    <div>
+      <a class="btn btn-accent" routerLink="/admin/brands/create">Crear</a>
+    </div>
+  </div>
+  <!-- Encabezado -->
+  <!-- Tabla -->
+  @if (brandsResource.error()) {
+    <is-error />
+  } @else if (brandsResource.isLoading()) {
+    <is-loading />
+  } @else if (brandsResource.hasValue()) {
+    <admin-brands-table [brands]="brandsResource.value()" />
+  } @else if (!brandsResource.hasValue()) {
+    <is-empty />
+  }
+  <!-- Tabla -->
+</div>

@@ -11,7 +11,7 @@ const API_URL = ` ${environment.apiUrl}/dashboard/categories`;
 })
 export class CategoriesService {
   private _http: HttpClient = inject(HttpClient);
-  public forbidenRCategories = computed<number[]>(() => [1, 2, 3]); // This is the list of roles that are not allowed to be deleted or edited. You can change this to whatever you want.
+  public forbidenCategories = computed<number[]>(() => [1, 2, 3]); // This is the list of roles that are not allowed to be deleted or edited. You can change this to whatever you want.
 
   getAll(): Observable<iCategory[]> {
     return this._http.get<iCategory[]>(API_URL);

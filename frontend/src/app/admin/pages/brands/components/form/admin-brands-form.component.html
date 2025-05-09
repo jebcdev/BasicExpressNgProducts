@@ -1,0 +1,100 @@
+<div
+  class="min-h-[70vh] flex items-center justify-center bg-base-200 py-2 px-4"
+>
+  <div class="card w-full max-w-xl bg-base-100 shadow-md">
+    <div class="card-body">
+      <!-- Título -->
+      <h2 class="text-2xl font-bold text-center text-base-content">
+        Datos de la Marca
+      </h2>
+
+      <!-- Formulario -->
+      <form
+        class="mt-4 space-y-4"
+        enctype="multipart/form-data"
+        [formGroup]="form"
+        (ngSubmit)="onSubmit()"
+      >
+        <!-- Nombre -->
+        <div class="form-control">
+          <label class="label" for="name">
+            <span class="label-text">Nombre</span>
+          </label>
+          <input
+            type="text"
+            placeholder="Muebles de Jardín"
+            class="input input-bordered w-full"
+            formControlName="name"
+            (blur)="onNameChanged($event)"
+          />
+        </div>
+        <!-- Slug -->
+        <div class="form-control">
+          <label class="label" for="slug">
+            <span class="label-text">Slug</span>
+          </label>
+          <input
+            type="text"
+            placeholder="muebles-de-jardin"
+            class="input input-bordered w-full"
+            formControlName="slug"
+            readonly
+          />
+        </div>
+
+        <!-- Descripcion -->
+        <div class="form-control">
+          <label class="label" for="description">
+            <span class="label-text">Descripción</span>
+          </label>
+          <input
+            type="text"
+            class="input input-bordered w-full"
+            formControlName="description"
+            placeholder="Estos muebles son ideales para el jardín"
+          />
+        </div>
+
+        <!-- Campo de carga de imagen -->
+        <div class="form-control">
+          <label class="label" for="imageFile">
+            <span class="label-text">Imagen</span>
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            class="file-input file-input-bordered w-full"
+            (change)="onImageSelected($event)"
+          />
+        </div>
+
+        <!-- Vista previa de la imagen seleccionada -->
+        <div *ngIf="imagePreview" class="mt-2">
+          <img
+            [src]="imagePreview"
+            alt="Vista previa"
+            class="w-32 h-32 object-cover rounded"
+          />
+        </div>
+
+        <!-- Botón Submit -->
+        <div class="flex justify-around gap-1 mt-4">
+          <div>
+            <button class="btn btn-primary w-full" type="submit">
+              {{ brandId() === null ? "Crear" : "Actualizar" }}
+            </button>
+          </div>
+          <div>
+            <button
+              class="btn btn-soft btn-primary w-full"
+              type="button"
+              (click)="onCleanForm()"
+            >
+              Limpiar
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

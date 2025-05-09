@@ -174,8 +174,9 @@ export class AdminRolesTableComponent {
     } catch (error) {
       console.error(error);
 
-      toast.error('Error al Eliminar el Rol', {
-        description: 'Error al Eliminar el Rol, por favor intente de nuevo',
+      toast.error('Error al Eliminar el Registro', {
+        description:
+          'Error al Eliminar el Registro, por favor intente de nuevo',
       });
     }
   }

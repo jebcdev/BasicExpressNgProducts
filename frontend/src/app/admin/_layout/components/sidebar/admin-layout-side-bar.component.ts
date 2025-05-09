@@ -24,6 +24,7 @@ export class AdminLayoutSideBarComponent {
     { path: '/admin/roles', label: 'Roles', icon: 'fas fa-user-tag' },
     { path: '/admin/users', label: 'Usuarios', icon: 'fas fa-users' },
     { path: '/admin/categories', label: 'Categorias', icon: 'fas fa-tags' },
+    { path: '/admin/brands', label: 'Marcas', icon: 'fas fa-trademark' },
   ]);
 
   logout(): void {
