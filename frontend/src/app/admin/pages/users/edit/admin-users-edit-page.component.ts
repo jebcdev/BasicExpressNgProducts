@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { AdminUsersFormComponent } from '../components/form/admin-users-form.component';
 import { RouterLink } from '@angular/router';
 
@@ -10,6 +10,8 @@ import { RouterLink } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminUsersEditPageComponent {}
+export class AdminUsersEditPageComponent {
+  userId = input.required<number>();
+}
 
 export default AdminUsersEditPageComponent;

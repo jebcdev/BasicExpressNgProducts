@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { AdminCategoriesFormComponent } from '../components/form/admin-categories-form.component';
 import { RouterLink } from '@angular/router';
 
@@ -10,5 +10,7 @@ import { RouterLink } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminCategoriesEditPageComponent {}
+export class AdminCategoriesEditPageComponent {
+  categoryId = input.required<number>();
+}
 export default AdminCategoriesEditPageComponent;

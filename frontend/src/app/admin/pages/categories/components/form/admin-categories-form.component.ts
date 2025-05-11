@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
 } from '@angular/core';
 
@@ -15,7 +16,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { toast } from 'ngx-sonner';
 import { from } from 'rxjs';
 // import { iCategory } from '@auth/interfaces';
@@ -30,6 +31,7 @@ import { generateSlug } from '@shared/utils/generate-slug.util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminCategoriesFormComponent {
+  categoryId = input.required<number | null>();
   constructor() {
     effect(() => {
       if (!this.isCreateMode() && this.categoryData.hasValue()) {
@@ -44,7 +46,6 @@ export class AdminCategoriesFormComponent {
   }
   /* - */
   private _categoriesService: CategoriesService = inject(CategoriesService);
-  private _route: ActivatedRoute = inject(ActivatedRoute);
   private _router: Router = inject(Router);
   private _formBuilder: FormBuilder = inject(FormBuilder);
   /** Señal con la URL actual */
@@ -52,11 +53,6 @@ export class AdminCategoriesFormComponent {
   /** Computed para detectar si es creación */
   isCreateMode = computed<boolean>(() => this.currentUrl().endsWith('/create'));
   /** Computed para extraer el ID si es edición */
-  categoryId = computed(() =>
-    this.isCreateMode()
-      ? null
-      : Number(this._route.snapshot.paramMap.get('id')),
-  );
 
   public categoryData = rxResource({
     loader: () => {

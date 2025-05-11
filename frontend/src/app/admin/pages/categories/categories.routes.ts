@@ -16,7 +16,7 @@ export const categoriesRoutes: Routes = [
       ),
   },
   {
-    path: 'edit/:id',
+    path: 'edit/:categoryId',
     title: 'Edit Category',
     loadComponent: () =>
       import(

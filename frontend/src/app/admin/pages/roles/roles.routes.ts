@@ -14,7 +14,7 @@ export const rolesRoutes: Routes = [
       import('@admin/pages/roles/create/admin-roles-create-page.component'),
   },
   {
-    path: 'edit/:id',
+    path: 'edit/:roleId',
     title: 'Edit Roles',
     loadComponent: () =>
       import('@admin/pages/roles/edit/admin-roles-edit-page.component'),

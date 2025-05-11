@@ -130,7 +130,7 @@ export class AdminBrandsTableComponent {
 
   onEdit(row: Row<iBrand>) {
     try {
-      if (this._brandsService.forbidenBrands().includes(row.original.id!)) {
+      if (this._brandsService.forbidenIds.includes(row.original.id!)) {
         toast.error('Ésta Marca, No Puede ser Editada', {
           description:
             'Ésta marca es una marca de sistema y no puede ser editada',
@@ -148,7 +148,7 @@ export class AdminBrandsTableComponent {
 
   onDelete(row: Row<iBrand>) {
     try {
-      if (this._brandsService.forbidenBrands().includes(row.original.id!)) {
+      if (this._brandsService.forbidenIds.includes(row.original.id!)) {
         toast.error('Ésta Marca, No Puede ser Eliminada', {
           description:
             'Ésta marca es una marca de sistema y no puede ser eliminada',

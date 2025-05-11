@@ -13,7 +13,7 @@ export const brandsRoutes: Routes = [
       import('@admin/pages/brands/create/admin-brands-create-page.component'),
   },
   {
-    path: 'edit/:id',
+    path: 'edit/:brandId',
     title: 'Edit Brand',
     loadComponent: () =>
       import('@admin/pages/brands/edit/admin-brands-edit-page.component'),

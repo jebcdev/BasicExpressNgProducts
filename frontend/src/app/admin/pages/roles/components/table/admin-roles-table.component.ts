@@ -128,7 +128,7 @@ export class AdminRolesTableComponent {
 
   onEdit(row: Row<iRole>) {
     try {
-      if (this._rolesService.forbidenRoles().includes(row.original.id)) {
+      if (this._rolesService.forbidenIds.includes(row.original.id)) {
         toast.error('Éste Rol, No Puede ser Editado', {
           description: 'Este rol es un rol de sistema y no puede ser editado',
         });
@@ -145,7 +145,7 @@ export class AdminRolesTableComponent {
 
   onDelete(row: Row<iRole>) {
     try {
-      if (this._rolesService.forbidenRoles().includes(row.original.id)) {
+      if (this._rolesService.forbidenIds.includes(row.original.id)) {
         toast.error('Éste Rol, No Puede ser Eliminado', {
           description: 'Este rol es un rol de sistema y no puede ser eliminado',
         });

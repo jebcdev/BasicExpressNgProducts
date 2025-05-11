@@ -7,6 +7,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
 } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
@@ -16,7 +17,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { iRole } from '@auth/interfaces';
 import { toast } from 'ngx-sonner';
 import { from } from 'rxjs';
@@ -30,6 +31,7 @@ import { from } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminRolesFormComponent {
+  roleId = input.required<number | null>();
   constructor() {
     // Reactivamente aplicar patchValue cuando llegan los datos
     effect(() => {
@@ -43,8 +45,6 @@ export class AdminRolesFormComponent {
   }
 
   private _rolesService: RolesService = inject(RolesService);
-
-  private _route: ActivatedRoute = inject(ActivatedRoute);
   private _router: Router = inject(Router);
   private _formBuilder: FormBuilder = inject(FormBuilder);
   /** Señal con la URL actual */
@@ -52,11 +52,6 @@ export class AdminRolesFormComponent {
   /** Computed para detectar si es creación */
   isCreateMode = computed<boolean>(() => this.currentUrl().endsWith('/create'));
   /** Computed para extraer el ID si es edición */
-  roleId = computed(() =>
-    this.isCreateMode()
-      ? null
-      : Number(this._route.snapshot.paramMap.get('id')),
-  );
 
   roleData = rxResource({
     loader: () => {

@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   signal,
 } from '@angular/core';
 
@@ -29,6 +30,7 @@ import { generateSlug } from '@shared/utils/generate-slug.util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminBrandsFormComponent {
+  brandId = input.required<number | null>();
   constructor() {
     effect(() => {
       if (!this.isCreateMode() && this.brandData.hasValue()) {
@@ -50,12 +52,6 @@ export class AdminBrandsFormComponent {
   private readonly currentUrl = signal(this._router.url);
   /** Computed para detectar si es creación */
   isCreateMode = computed<boolean>(() => this.currentUrl().endsWith('/create'));
-  /** Computed para extraer el ID si es edición */
-  brandId = computed(() =>
-    this.isCreateMode()
-      ? null
-      : Number(this._route.snapshot.paramMap.get('id')),
-  );
 
   public brandData = rxResource({
     loader: () => {

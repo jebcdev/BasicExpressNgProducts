@@ -133,9 +133,7 @@ export class AdminCategoriesTableComponent {
 
   onEdit(row: Row<iCategory>) {
     try {
-      if (
-        this._categoriesService.forbidenCategories().includes(row.original.id!)
-      ) {
+      if (this._categoriesService.forbidenIds.includes(row.original.id!)) {
         toast.error('Ésta Categoría, No Puede ser Editada', {
           description:
             'Ésta categoría es una categoría de sistema y no puede ser editada',
@@ -153,9 +151,7 @@ export class AdminCategoriesTableComponent {
 
   onDelete(row: Row<iCategory>) {
     try {
-      if (
-        this._categoriesService.forbidenCategories().includes(row.original.id!)
-      ) {
+      if (this._categoriesService.forbidenIds.includes(row.original.id!)) {
         toast.error('Ésta Categoría, No Puede ser Eliminada', {
           description:
             'Ésta categoría es una categoría de sistema y no puede ser eliminada',

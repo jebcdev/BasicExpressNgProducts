@@ -14,7 +14,7 @@ export const usersRoutes: Routes = [
       import('@admin/pages/users/create/admin-users-create-page.component'),
   },
   {
-    path: 'edit/:id',
+    path: 'edit/:userId',
     title: 'Edit Users',
     loadComponent: () =>
       import('@admin/pages/users/edit/admin-users-edit-page.component'),

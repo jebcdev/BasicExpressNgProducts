@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import AdminBrandsFormComponent from '../components/form/admin-brands-form.component';
 
@@ -9,6 +9,8 @@ import AdminBrandsFormComponent from '../components/form/admin-brands-form.compo
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminBrandsEditPageComponent {}
+export class AdminBrandsEditPageComponent {
+  brandId = input.required<number>();
+}
 
 export default AdminBrandsEditPageComponent;

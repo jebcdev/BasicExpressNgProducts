@@ -8,6 +8,7 @@ import {
   computed,
   effect,
   inject,
+  input,
   ResourceRef,
   signal,
 } from '@angular/core';
@@ -18,7 +19,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { iRole, iUser } from '@auth/interfaces';
 import { toast } from 'ngx-sonner';
 import { from } from 'rxjs';
@@ -32,21 +33,8 @@ import { from } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersFormComponent {
+  userId = input.required<number | null>();
   constructor() {
-    // Reactivamente aplicar patchValue cuando llegan los datos
-    /*     effect(() => {
-      if (!this.isCreateMode() && this.userData.hasValue()) {
-        this.form.patchValue({
-          name: this.userData.value()?.name!,
-          surname: this.userData.value()?.surname!,
-          email: this.userData.value()?.email!,
-          password: this.userData.value()?.password!,
-          role_id: this.userData.value()?.role_id!,
-        });
-
-      }
-    }); */
-
     effect(() => {
       const user = this.userData.value();
       const roles = this.rolesResource.value();
@@ -66,7 +54,6 @@ export class AdminUsersFormComponent {
   private _usersService: UsersService = inject(UsersService);
   private _rolesService: RolesService = inject(RolesService);
 
-  private _route: ActivatedRoute = inject(ActivatedRoute);
   private _router: Router = inject(Router);
   private _formBuilder: FormBuilder = inject(FormBuilder);
   /** Señal con la URL actual */
@@ -74,11 +61,6 @@ export class AdminUsersFormComponent {
   /** Computed para detectar si es creación */
   isCreateMode = computed<boolean>(() => this.currentUrl().endsWith('/create'));
   /** Computed para extraer el ID si es edición */
-  userId = computed(() =>
-    this.isCreateMode()
-      ? null
-      : Number(this._route.snapshot.paramMap.get('id')),
-  );
 
   userData = rxResource({
     loader: () => {

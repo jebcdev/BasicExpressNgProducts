@@ -129,7 +129,7 @@ export class AdminUsersTableComponent {
 
   onEdit(row: Row<iUser>) {
     try {
-      if (this._usersService.forbidenUsers().includes(row.original.id!)) {
+      if (this._usersService.forbidenIds.includes(row.original.id!)) {
         toast.error('Éste Usuario, No Puede ser Editado', {
           description:
             'Este usuario es un usuario de sistema y no puede ser editado',
@@ -147,7 +147,7 @@ export class AdminUsersTableComponent {
 
   onDelete(row: Row<iUser>) {
     try {
-      if (this._usersService.forbidenUsers().includes(row.original.id!)) {
+      if (this._usersService.forbidenIds.includes(row.original.id!)) {
         toast.error('Éste Usuario, No Puede ser Eliminado', {
           description:
             'Este usuario es un usuario de sistema y no puede ser eliminado',
