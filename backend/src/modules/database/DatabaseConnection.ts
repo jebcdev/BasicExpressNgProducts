@@ -12,6 +12,7 @@ import { UserEntity } from "../user/entities/user.entity";
 import { DatabaseConfig } from "../../core/config/database.config";
 import { CategoryEntity } from "../dashboard/categories/entities/category.entity";
 import { BrandEntity } from "../dashboard/brands/entities/brand.entity";
+import { ProductEntity } from "../dashboard/products/entities/product.entity";
 
 
 // Define una clase para manejar la conexión a la base de datos.
@@ -25,7 +26,7 @@ export class DatabaseConnection {
         username: DatabaseConfig.username,         // Nombre de usuario para la autenticación en la base de datos.
         password: DatabaseConfig.password,             // Contraseña para la autenticación (⚠️ Evitar credenciales en código fuente).
         database: DatabaseConfig.database,  // Nombre de la base de datos a la que se conectará.
-        entities: [RoleEntity,UserEntity,CategoryEntity,BrandEntity],   // Lista de entidades que manejará TypeORM en la base de datos.
+        entities: [RoleEntity,UserEntity,CategoryEntity,BrandEntity,ProductEntity],   // Lista de entidades que manejará TypeORM en la base de datos.
         synchronize: true,        // Permite que TypeORM sincronice la base de datos automáticamente con los modelos (⚠️ No recomendado en producción).
         logging: true,            // Habilita el registro de consultas SQL en la consola para depuración.
     });

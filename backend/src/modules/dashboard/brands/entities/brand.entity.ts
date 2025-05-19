@@ -6,7 +6,9 @@ import {
     DeleteDateColumn,
     BaseEntity,
     UpdateDateColumn,
+    OneToMany,
 } from "typeorm";
+import { ProductEntity } from "../../products/entities/product.entity";
 
 @Entity("brands")
 export class BrandEntity extends BaseEntity {
@@ -38,6 +40,9 @@ export class BrandEntity extends BaseEntity {
         nullable: false,
     })
     image: string;
+
+    @OneToMany(() => ProductEntity, (product) => product.brand)
+    products: ProductEntity[];
 
     @CreateDateColumn({
         type: "timestamp",
