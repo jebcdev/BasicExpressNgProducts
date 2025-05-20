@@ -185,6 +185,7 @@ export class CategoryController {
             }
     
             toUpdate.name = dto.name || toUpdate.name;
+            
             const updatedData: UpdateResult | null = await this.service.updateById(
                 id,
                 plainToInstance(CategoryEntity, toUpdate)

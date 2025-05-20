@@ -5,10 +5,8 @@ import {
     IsInt,
     IsNotEmpty,
     IsNumber,
-    IsOptional,
     IsString,
     Length,
-    Min,
     ValidateNested,
 } from "class-validator";
 import { Type } from "class-transformer";

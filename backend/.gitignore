@@ -7,4 +7,6 @@
 /dist/public/uploads/categories/*
 !/dist/public/uploads/brands/
 /dist/public/uploads/brands/*
+!/dist/public/uploads/products/
+/dist/public/uploads/products/*
 /node_modules/
