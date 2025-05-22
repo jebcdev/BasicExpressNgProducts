@@ -3,12 +3,13 @@ import { IsAdminMiddleware } from "../../core/middlewares/isAdmin.middleware";
 import { TokenExistsMiddleware } from "../../core/middlewares/tokenExists.middleware";
 import { CategoryRoutes } from "./categories/routes/category.routes";
 import { BrandRoutes } from "./brands/routes/brand.routes";
+import { ProductRoutes } from "./products/routes/product.routes";
+
 export class DashboardRoutes {
     public readonly router: Router;
 
     constructor() {
         this.router = Router();
-
         this.initializeRoutes();
     }
 
@@ -25,6 +26,13 @@ export class DashboardRoutes {
             TokenExistsMiddleware.check,
             IsAdminMiddleware.check,
             new BrandRoutes().router
+        );
+
+        this.router.use(
+            "/products",
+            TokenExistsMiddleware.check,
+            IsAdminMiddleware.check,
+            new ProductRoutes().router
         );
     }
 }

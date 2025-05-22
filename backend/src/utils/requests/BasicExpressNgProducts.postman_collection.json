@@ -1502,6 +1502,395 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "Products",
+					"item": [
+						{
+							"name": "getAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dashboard/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dashboard",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dashboard/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dashboard",
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createNew",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "code",
+											"value": "00002",
+											"type": "text"
+										},
+										{
+											"key": "name",
+											"value": "desde postman",
+											"type": "text"
+										},
+										{
+											"key": "slug",
+											"value": "desde-postman",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "prueba de envio desde postman. prueba de envio desde postman. prueba de envio desde postman. prueba de envio desde postman. prueba de envio desde postman. ",
+											"type": "text"
+										},
+										{
+											"key": "short_description",
+											"value": "short desde postman. ",
+											"type": "text"
+										},
+										{
+											"key": "images",
+											"type": "file",
+											"src": []
+										},
+										{
+											"key": "price",
+											"value": "20000",
+											"type": "text"
+										},
+										{
+											"key": "sale_price",
+											"value": "22000",
+											"type": "text"
+										},
+										{
+											"key": "cost_price",
+											"value": "20000",
+											"type": "text"
+										},
+										{
+											"key": "stock_quantity",
+											"value": "20",
+											"type": "text"
+										},
+										{
+											"key": "sku",
+											"value": "VG-SSYJ",
+											"type": "text"
+										},
+										{
+											"key": "barcode",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "featured",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "published",
+											"type": "text"
+										},
+										{
+											"key": "category_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "brand_id",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "tags",
+											"value": "un tag",
+											"type": "text"
+										},
+										{
+											"key": "attributes",
+											"value": "un attribute",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dashboard/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dashboard",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createNewJson",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"code\": \"P001\",\r\n    \"name\": \"Product Name\",\r\n    \"slug\": \"product-name\",\r\n    \"description\": \"This is a product description.\",\r\n    \"short_description\": \"Short description\",\r\n    \"images\": [\"image1.jpg\", \"image2.jpg\"],\r\n    \"price\": 100.50,\r\n    \"sale_price\": 90.00,\r\n    \"cost_price\": 70.00,\r\n    \"stock_quantity\": 50,\r\n    \"sku\": \"SKU001\",\r\n    \"barcode\": \"123456789\",\r\n    \"featured\": true,\r\n    \"status\": \"published\",\r\n    \"category_id\": 1,\r\n    \"brand_id\": 2,\r\n    \"tags\": [\"tag1\", \"tag2\"],\r\n    \"attributes\": [{\"key\": \"color\", \"value\": \"red\"}]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dashboard/products",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dashboard",
+										"products"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n \"name\":\"Majin Vegeta\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dashboard/products/2",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dashboard",
+										"products",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/dashboard/products/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"dashboard",
+										"products",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

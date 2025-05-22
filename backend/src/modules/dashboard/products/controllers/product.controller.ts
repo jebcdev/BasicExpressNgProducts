@@ -223,9 +223,10 @@ export class ProductController {
             if (!data)
                 return res.status(404).json("Product Not Found");
 
-            if (data.images) {
+            // TODO: OJO CONEL DELETE DE IMAGENES
+            /* if (data.images) {
                 deleteFile(data.images); // Aquí ahora ya pasa el path tal cual /uploads/products/abc123.png
-            }
+            } */
 
             const deleteResult = await this.service.deleteById(id);
             if (!deleteResult)
