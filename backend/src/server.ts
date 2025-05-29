@@ -16,7 +16,7 @@ export class Server {
     // Constructor que inicializa la aplicación
     constructor() {
         this.app = express();
-        this.port = parseInt(process.env.PORT || "4000", 10) || 4000;
+        this.port = parseInt(process.env.PORT || "3000", 10) || 3000;
         this.apiPrefix = process.env.API_PREFIX || "/api/v1";
         this.middlewares(); // Llama al método de middlewares
         this.routes(); // Llama al método de rutas
