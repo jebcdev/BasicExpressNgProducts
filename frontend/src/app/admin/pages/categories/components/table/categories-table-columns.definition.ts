@@ -1,4 +1,4 @@
-import { iCategory } from '@auth/interfaces';
+import { iCategory } from '@admin/interfaces';
 import { ColumnDef, FilterFn, Row } from '@tanstack/angular-table';
 
 const customFilterFn: FilterFn<iCategory> = (

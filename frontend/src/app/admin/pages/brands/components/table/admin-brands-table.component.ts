@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { iBrand } from '@auth/interfaces';
+import { iBrand } from '@admin/interfaces';
 import {
   Column,
   ColumnFiltersState,
@@ -140,8 +140,8 @@ export class AdminBrandsTableComponent {
       this._router.navigate(['admin/brands/edit', row.original.id]);
     } catch (error) {
       console.error(error);
-      toast.error('Error al Editar el Marca', {
-        description: 'Error al Editar el Marca, por favor intente de nuevo',
+      toast.error('Error al Editar la Marca', {
+        description: 'Error al Editar la Marca, por favor intente de nuevo',
       });
     }
   }

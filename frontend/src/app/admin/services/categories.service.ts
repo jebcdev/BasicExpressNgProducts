@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { iCategory } from '@auth/interfaces';
+import { iCategory } from '@admin/interfaces';
 import { environment } from '@env/environment';
 import { toast } from 'ngx-sonner';
 import { catchError, Observable, tap } from 'rxjs';

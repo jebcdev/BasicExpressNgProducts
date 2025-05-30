@@ -1,4 +1,4 @@
-import { iBrand } from '@auth/interfaces';
+import { iBrand } from '@admin/interfaces';
 import { ColumnDef, FilterFn, Row } from '@tanstack/angular-table';
 
 const customFilterFn: FilterFn<iBrand> = (

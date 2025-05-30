@@ -32,6 +32,11 @@ export const adminRoutes: Routes = [
         title: 'Brands',
         loadChildren: () => import('@admin/pages/brands/brands.routes'),
       },
+      {
+        path: 'products',
+        title: 'Products',
+        loadChildren: () => import('@admin/pages/products/products.routes'),
+      },
 
       {
         path: '**',

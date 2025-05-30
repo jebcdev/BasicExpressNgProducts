@@ -1,0 +1,179 @@
+<div class="p-1">
+  <!-- Table -->
+  <div
+    class="w-full overflow-x-auto rounded-lg shadow-lg border border-base-300 bg-base-100 dark:bg-base-300 p-1"
+  >
+    <table class="table table-zebra table-hover w-full">
+      <caption>
+        <div class="flex justify-items-start items-center gap-1 mb-1">
+          <input
+            type="text"
+            placeholder="Buscar ..."
+            class="input input-sm"
+            #input
+            (input)="onSearch(input.value)"
+          />
+        </div>
+      </caption>
+      <thead>
+        @for (headerGroup of table.getHeaderGroups(); track $index) {
+          <tr
+            class="border-b border-base-300 bg-primary/10 text-primary-content/80 dark:bg-primary/20"
+          >
+            @for (headerItem of headerGroup.headers; track $index) {
+              @if (!headerItem.isPlaceholder) {
+                <th
+                  class="px-2 py-0.5 text-sm uppercase tracking-wider font-bold"
+                  [ngClass]="{
+                    'text-left': $index === 0,
+                    'text-right': $index === headerGroup.headers.length - 1,
+                    'text-center':
+                      $index > 0 && $index < headerGroup.headers.length - 1,
+                  }"
+                >
+                  <ng-container
+                    *flexRender="
+                      headerItem.column.columnDef.header;
+                      props: headerItem.getContext();
+                      let header
+                    "
+                  >
+                    <button
+                      class="btn btn-xs btn-outline"
+                      (click)="onSort(headerItem.column)"
+                    >
+                      <span
+                        class="flex items-center space-x-1"
+                        [innerHTML]="header"
+                      ></span>
+                    </button>
+                  </ng-container>
+                </th>
+              }
+            }
+          </tr>
+        }
+      </thead>
+      <tbody>
+        @for (row of table.getRowModel().rows; track $index) {
+          <tr
+            class="border-b border-base-200 hover:bg-base-200/50 dark:hover:bg-base-200/20 transition-colors"
+          >
+            @for (cell of row.getVisibleCells(); track $index) {
+              <td
+                class="px-2 py-0.5 text-sm"
+                [ngClass]="{
+                  'text-left': $index === 0,
+                  'text-right': $index === row.getVisibleCells().length - 1,
+                  'text-center':
+                    $index > 0 && $index < row.getVisibleCells().length - 1,
+                }"
+              >
+                @if (cell.column.id === "select") {
+                  <input
+                    class="checkbox"
+                    type="checkbox"
+                    [checked]="row.getIsSelected()"
+                    (change)="row.toggleSelected()"
+                  />
+                } @else if (cell.column.id === "actions") {
+                  <div class="flex justify-end gap-2">
+                    <button
+                      class="btn btn-sm btn-primary"
+                      (click)="onEdit(row)"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      class="btn btn-sm btn-error"
+                      (click)="onDelete(row)"
+                    >
+                      Eliminar
+                    </button>
+                  </div>
+                } @else if (cell.column.id === "image") {
+                  <div class="flex justify-end gap-2">
+                    <img
+                      class="w-16 h-16 rounded-full"
+                      [src]="backendUrl + row.original.images"
+                      [alt]="row.original.name"
+                      (error)="handleImageError($event)"
+                    />
+                  </div>
+                } @else {
+                  <ng-container
+                    *flexRender="
+                      cell.column.columnDef.cell;
+                      props: cell.getContext();
+                      let cellContent
+                    "
+                  >
+                    <span class="inline-block" [innerHTML]="cellContent"></span>
+                  </ng-container>
+                }
+              </td>
+            }
+          </tr>
+        } @empty {
+          <tr
+            class="border-b border-base-200 hover:bg-base-200/50 dark:hover:bg-base-200/20 transition-colors"
+          >
+            <td
+              colspan="100%"
+              class="text-center text-sm font-bold text-gray-500"
+            >
+              No hay datos para mostrar
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <!-- Table -->
+
+  <!-- Pagination -->
+  <div
+    class="w-full shadow-md p-2 flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 sm:space-x-4 z-50"
+  >
+    <div>
+      <span class="text-sm rounded-2xl shadow px-3 py-1">
+        Mostrando: {{ table.getRowModel().rows.length }} de
+        {{ table.getRowCount() }}
+      </span>
+    </div>
+    <div>
+      <select class="select" (change)="onChangePageSize($event)">
+        @for (item of sizesPages(); track $index) {
+          <option
+            [value]="item"
+            [selected]="item === table.getState().pagination.pageSize"
+          >
+            {{ item }}
+          </option>
+        }
+      </select>
+    </div>
+    <div>
+      <span class="text-sm rounded-2xl shadow px-3 py-1">
+        {{ table.getState().pagination.pageIndex + 1 }}
+      </span>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button
+        class="btn btn-sm btn-primary"
+        [disabled]="!table.getCanPreviousPage()"
+        (click)="table.previousPage()"
+      >
+        Anterior
+      </button>
+      <button
+        class="btn btn-sm btn-primary"
+        [disabled]="!table.getCanNextPage()"
+        (click)="table.nextPage()"
+      >
+        Siguiente
+      </button>
+    </div>
+  </div>
+  <!-- Pagination -->
+</div>

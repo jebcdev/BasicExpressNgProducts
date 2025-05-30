@@ -1,4 +1,4 @@
-import { CategoriesService } from '@admin/services/categories.service';
+import { ProductsService } from '@admin/services';
 
 import {
   ChangeDetectionStrategy,
@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { iCategory } from '@admin/interfaces';
+import { iProduct } from '@admin/interfaces';
 import {
   Column,
   ColumnFiltersState,
@@ -23,7 +23,7 @@ import {
   SortingState,
   VisibilityState,
 } from '@tanstack/angular-table';
-import categoriesTableColumns from './categories-table-columns.definition';
+import productsTableColumns from './products-table-columns.definition';
 import { toast } from 'ngx-sonner';
 import { tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -32,20 +32,17 @@ import { environment } from '@env/environment';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'admin-categories-table',
+  selector: 'admin-products-table',
   imports: [CommonModule, FlexRenderDirective],
-  templateUrl: './admin-categories-table.component.html',
+  templateUrl: './admin-products-table.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminCategoriesTableComponent {
-  //
-  private _categoriesService: CategoriesService = inject(CategoriesService);
+export class AdminProductsTableComponent {
+  products = input.required<iProduct[]>();
+  private _productsService: ProductsService = inject(ProductsService);
   private _router: Router = inject(Router);
-  categories = input.required<iCategory[]>();
   public readonly backendUrl = environment.backendUrl;
-
-  /*  */
 
   private readonly _pagination = signal<PaginationState>({
     pageIndex: 0,
@@ -55,11 +52,11 @@ export class AdminCategoriesTableComponent {
   private readonly _sortingState = signal<SortingState>([]); // This is the sorting state that will be passed to the table
   private readonly _columnVisibility = signal<VisibilityState>({}); // This is the column visibility state that will be passed to the table
   private readonly _columnFilter = signal<ColumnFiltersState>([]); // This is the column filter state that will be passed to the table
-
+  /*  */
   public table = createAngularTable(() => ({
-    data: this.categories(),
+    data: this.products(),
     getCoreRowModel: getCoreRowModel(),
-    columns: categoriesTableColumns,
+    columns: productsTableColumns,
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
@@ -96,8 +93,7 @@ export class AdminCategoriesTableComponent {
         : this._columnFilter.set(filterChange);
     },
   }));
-
-  /* Metodos */
+  /*  */
   onChangePageSize(e: Event) {
     try {
       const element = e.target as HTMLSelectElement;
@@ -107,7 +103,7 @@ export class AdminCategoriesTableComponent {
     }
   }
 
-  onSort(col: Column<iCategory>) {
+  onSort(col: Column<iProduct>) {
     try {
       col.toggleSorting(col.getIsSorted() === 'asc');
     } catch (error) {
@@ -131,37 +127,37 @@ export class AdminCategoriesTableComponent {
     }
   }
 
-  onEdit(row: Row<iCategory>) {
+  onEdit(row: Row<iProduct>) {
     try {
-      if (this._categoriesService.forbidenIds.includes(row.original.id!)) {
-        toast.error('Ésta Categoría, No Puede ser Editada', {
+      if (this._productsService.forbidenIds.includes(row.original.id!)) {
+        toast.error('Éste Registro, No Puede ser Editado', {
           description:
-            'Ésta categoría es una categoría de sistema y no puede ser editada',
+            'Ésta es un registro del  sistema y no puede ser editado',
         });
         return;
       }
-      this._router.navigate(['admin/categories/edit', row.original.id]);
+      this._router.navigate(['admin/products/edit', row.original.id]);
     } catch (error) {
       console.error(error);
-      toast.error('Error al Editar el Categoría', {
-        description: 'Error al Editar el Categoría, por favor intente de nuevo',
+      toast.error('Error al Editar el Registro', {
+        description: 'Error al Editar el Registro, por favor intente de nuevo',
       });
     }
   }
 
-  onDelete(row: Row<iCategory>) {
+  onDelete(row: Row<iProduct>) {
     try {
-      if (this._categoriesService.forbidenIds.includes(row.original.id!)) {
-        toast.error('Ésta Categoría, No Puede ser Eliminada', {
+      if (this._productsService.forbidenIds.includes(row.original.id!)) {
+        toast.error('Éste Registro, No Puede ser Eliminado', {
           description:
-            'Ésta categoría es una categoría de sistema y no puede ser eliminada',
+            'Ésta es un registro del  sistema y no puede ser eliminado',
         });
         return;
       }
       if (confirm('¿Está Seguro de Eliminar Éste Registro?')) {
-        this._categoriesService
+        this._productsService
           .deleteById(row.original.id!)
-          .pipe(tap(() => this._categoriesService.getAll().subscribe()))
+          .pipe(tap(() => this._productsService.getAll().subscribe()))
           .subscribe({
             next: () => {
               toast.success('Registro Eliminado', {
@@ -195,4 +191,4 @@ export class AdminCategoriesTableComponent {
   }
 }
 
-export default AdminCategoriesTableComponent;
+export default AdminProductsTableComponent;
