@@ -32,8 +32,8 @@ export class PrivateLayoutNavbarComponent {
   });
 
   menuItems = signal<iMenuItem[]>([
-    { path: '/', label: 'Home', icon: 'fas fa-home' },
-    { path: '/private/profile', label: 'Perfíl', icon: 'fas fa-cogs' },
+    { path: '/', title: 'Home', icon: 'fas fa-home' },
+    { path: '/private/profile', title: 'Perfíl', icon: 'fas fa-cogs' },
   ]);
 
   logout() {

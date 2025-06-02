@@ -1,5 +1,5 @@
 export interface iMenuItem {
   path: string;
-  label: string;
+  title: string;
   icon?: string;
 }

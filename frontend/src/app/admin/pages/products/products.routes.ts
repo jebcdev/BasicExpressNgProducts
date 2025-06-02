@@ -1,23 +1,27 @@
 import { Routes } from '@angular/router';
+import { AdminProductsCreatePageComponent } from '@admin/pages/products';
 export const productsRoutes: Routes = [
   {
-    path: '',
     title: 'Products',
+    path: '',
     loadComponent: () =>
       import('@admin/pages/products/admin-products-page.component'),
   },
-  /*   {
-    path: 'create',
-    title: 'Create Brand',
-    loadComponent: () =>
-      import('@admin/pages/brands/create/admin-brands-create-page.component'),
-  },
   {
-    path: 'edit/:brandId',
-    title: 'Edit Brand',
+    title: 'Create Product',
+    path: 'create',
     loadComponent: () =>
-      import('@admin/pages/brands/edit/admin-brands-edit-page.component'),
-  }, */
+      import(
+        '@admin/pages/products/create/admin-products-create-page.component'
+      ),
+  },
+  
+  {
+    path: 'edit/:productId',
+    title: 'Edit Product',
+    loadComponent: () =>
+      import('@admin/pages/products/edit/admin-products-edit-page.component'),
+  },
 ];
 
 export default productsRoutes;

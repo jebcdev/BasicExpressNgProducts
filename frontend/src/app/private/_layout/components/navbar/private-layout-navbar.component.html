@@ -40,7 +40,7 @@
               [routerLink]="item.path"
               routerLinkActive="btn-accent!"
               [routerLinkActiveOptions]="{ exact: true }"
-              ><i [class]="item.icon"></i>&nbsp;{{ item.label }}
+              ><i [class]="item.icon"></i>&nbsp;{{ item.title }}
             </a>
           </li>
         }
@@ -69,7 +69,7 @@
             [routerLink]="item.path"
             routerLinkActive="btn-accent!"
             [routerLinkActiveOptions]="{ exact: true }"
-            ><i [class]="item.icon"></i>&nbsp;{{ item.label }}
+            ><i [class]="item.icon"></i>&nbsp;{{ item.title }}
           </a>
           @if (isAdmin()) {}
         </li>

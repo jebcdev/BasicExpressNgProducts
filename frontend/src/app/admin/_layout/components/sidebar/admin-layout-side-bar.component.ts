@@ -20,12 +20,12 @@ export class AdminLayoutSideBarComponent {
   private _router: Router = inject(Router);
 
   menuItems = signal<iMenuItem[]>([
-    { path: '/admin', label: 'Dashboard', icon: 'fab fa-dashcube' },
-    { path: '/admin/roles', label: 'Roles', icon: 'fas fa-user-tag' },
-    { path: '/admin/users', label: 'Usuarios', icon: 'fas fa-users' },
-    { path: '/admin/categories', label: 'Categorias', icon: 'fas fa-tags' },
-    { path: '/admin/brands', label: 'Marcas', icon: 'fas fa-trademark' },
-    { path: '/admin/products', label: 'Productos', icon: 'fas fa-boxes' },
+    { path: '/admin', title: 'Dashboard', icon: 'fab fa-dashcube' },
+    { path: '/admin/roles', title: 'Roles', icon: 'fas fa-user-tag' },
+    { path: '/admin/users', title: 'Usuarios', icon: 'fas fa-users' },
+    { path: '/admin/categories', title: 'Categorias', icon: 'fas fa-tags' },
+    { path: '/admin/brands', title: 'Marcas', icon: 'fas fa-trademark' },
+    { path: '/admin/products', title: 'Productos', icon: 'fas fa-boxes' },
   ]);
 
   logout(): void {
