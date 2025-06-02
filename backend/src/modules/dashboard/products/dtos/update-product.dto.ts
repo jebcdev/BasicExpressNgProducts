@@ -37,10 +37,10 @@ export class UpdateProductDto {
   @Length(0, 255)
   short_description?: string;
 
-  @IsOptional()
+ /*  @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  images?: string[];
+  images?: string[]; */
 
   @IsOptional()
   @IsNumber()

@@ -37,10 +37,10 @@ export class CreateProductDto {
     @Length(0, 255)
     short_description?: string;
 
-    @IsNotEmpty()
+    /* @IsNotEmpty()
     @IsArray()
     @IsString({ each: true }) // Cada imagen debe ser una string (URL o nombre de archivo)
-    images?: string[];
+    images?: string[]; */
 
     @IsNotEmpty()
     @IsNumber()
