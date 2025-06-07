@@ -1,6 +1,5 @@
-
 export enum eProductStatus {
-    DRAFT = "draft",
-    PUBLISHED = "published",
-    ARCHIVED = "archived",
+  DRAFT = 'draft',
+  PUBLISHED = 'published',
+  ARCHIVED = 'archived',
 }

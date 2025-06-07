@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AdminProductsFormComponent } from '../index';
 import { RouterLink } from '@angular/router';
 
@@ -9,8 +9,6 @@ import { RouterLink } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminProductsCreatePageComponent {
-  
-}
+export class AdminProductsCreatePageComponent {}
 
 export default AdminProductsCreatePageComponent;

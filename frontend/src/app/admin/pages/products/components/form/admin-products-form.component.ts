@@ -26,6 +26,8 @@ import {
 } from '@admin/services/';
 import { generateSlug } from '@shared/utils/generate-slug.util';
 import { eProductStatus } from '@admin/enums';
+import { iProduct } from '@admin/interfaces';
+import { convertStringToArray } from '@shared/utils';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'admin-products-form',
@@ -72,7 +74,7 @@ export class AdminProductsFormComponent {
     value: status,
     label: this.getStatusLabel(status),
   }));
-  private getStatusLabel(status: eProductStatus): string {
+  getStatusLabel(status: eProductStatus): string {
     switch (status) {
       case eProductStatus.DRAFT:
         return 'Borrador';
@@ -214,30 +216,19 @@ export class AdminProductsFormComponent {
         return;
       }
 
-      const data = new FormData();
-      data.append('code', this.form.value.code);
-      data.append('name', this.form.value.name);
-      data.append('slug', this.form.value.slug);
-      data.append('description', this.form.value.description);
-      data.append('short_description', this.form.value.short_description || '');
-      data.append('price', this.form.value.price);
-      data.append('sale_price', this.form.value.sale_price || '');
-      data.append('cost_price', this.form.value.cost_price || '');
-      data.append('stock_quantity', this.form.value.stock_quantity.toString());
-      data.append('sku', this.form.value.sku || '');
-      data.append('barcode', this.form.value.barcode || '');
-      data.append('featured', this.form.value.featured.toString());
-      data.append('status', this.form.value.status);
-      data.append('category_id', this.form.value.category_id.toString());
-      data.append('brand_id', this.form.value.brand_id.toString());
-      data.append('tags', JSON.stringify(this.form.value.tags));
-      data.append('attributes', JSON.stringify(this.form.value.attributes));
+      const data: iProduct = {
+        ...this.form.value,
+        tags: convertStringToArray(this.form.value.tags),
+        attributes: convertStringToArray(this.form.value.attributes),
+        category_id: parseInt(this.form.value.category_id, 10),
+        brand_id: parseInt(this.form.value.brand_id, 10),
+        price: parseFloat(this.form.value.price),
+        sale_price: parseFloat(this.form.value.sale_price || '0'),
+        cost_price: parseFloat(this.form.value.cost_price || '0'),
+        stock_quantity: parseInt(this.form.value.stock_quantity, 10),
+        featured: this.form.value.featured === true,
+      };
 
-      const imageFile = this.form.get('images')?.value;
-      if (imageFile) {
-        data.append('images', imageFile);
-      }
-      // console.log(data);
       if (this.isCreateMode()) {
         this._productsService.create(data).subscribe({
           next: () => {
@@ -246,7 +237,7 @@ export class AdminProductsFormComponent {
               // description: `El registro: ${data.name}, se creó correctamente `,
               duration: 3000,
             });
-            this._router.navigateByUrl('/admin/brands');
+            this._router.navigateByUrl('/admin/products');
           },
           error: (err: unknown) => {
             console.error(err);
@@ -265,7 +256,7 @@ export class AdminProductsFormComponent {
               // description: `El registro: ${data.name}, se actualizó correctamente `,
               duration: 3000,
             });
-            this._router.navigateByUrl('/admin/brands');
+            this._router.navigateByUrl('/admin/products');
           },
           error: (err) => {
             console.error(err);

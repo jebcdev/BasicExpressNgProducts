@@ -1,4 +1,5 @@
 import { iProduct } from '@admin/interfaces';
+import { eProductStatus } from '@admin/enums';
 import { ColumnDef, FilterFn, Row } from '@tanstack/angular-table';
 
 const customFilterFn: FilterFn<iProduct> = (
@@ -98,11 +99,7 @@ export const productsTableColumns: ColumnDef<iProduct>[] = [
     cell: (info) => {
       const stock = info.getValue() as number;
       const stockClass =
-        stock > 10
-          ? 'text-green-600'
-          : stock > 0
-            ? 'text-yellow-600'
-            : 'text-red-600';
+        stock > 10 ? 'text-success' : stock > 0 ? 'text-warning' : 'text-error';
       return `<span class="${stockClass}">${stock}</span>`;
     },
     header: 'Stock',
@@ -125,9 +122,27 @@ export const productsTableColumns: ColumnDef<iProduct>[] = [
     accessorFn: (row) => row.status,
     cell: (info) => {
       const status = info.getValue() as string;
-      const statusClass =
-        status === 'active' ? 'text-green-600' : 'text-red-600';
-      const statusText = status === 'active' ? 'Activo' : 'Inactivo';
+      let statusClass = '';
+      let statusText = '';
+
+      switch (status) {
+        case eProductStatus.PUBLISHED:
+          statusClass = 'text-success';
+          statusText = 'Publicado';
+          break;
+        case eProductStatus.DRAFT:
+          statusClass = 'text-warning';
+          statusText = 'Borrador';
+          break;
+        case eProductStatus.ARCHIVED:
+          statusClass = 'text-error';
+          statusText = 'Archivado';
+          break;
+        default:
+          statusClass = 'text-neutral';
+          statusText = 'Desconocido';
+      }
+
       return `<span class="${statusClass}">${statusText}</span>`;
     },
     header: 'Estado',

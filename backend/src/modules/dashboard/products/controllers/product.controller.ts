@@ -153,12 +153,12 @@ export class ProductController {
             }
 
             // Si se sube una nueva imagen, elimina la anterior
-            if (req.file) {
+            /* if (req.file) {
                 if (toUpdate.images) {
                     deleteFile(toUpdate.images); // Aquí ahora ya pasa el path tal cual /uploads/products/abc123.png
                 }
                 toUpdate.images = `/public/uploads/products/${req.file.filename}`; // Guarda nueva ruta
-            }
+            } */
 
             toUpdate.name = dto.name || toUpdate.name;
             toUpdate.slug = dto.slug || toUpdate.slug;

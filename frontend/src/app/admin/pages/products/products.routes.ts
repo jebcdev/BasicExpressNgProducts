@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AdminProductsCreatePageComponent } from '@admin/pages/products';
 export const productsRoutes: Routes = [
   {
     title: 'Products',
@@ -15,7 +14,7 @@ export const productsRoutes: Routes = [
         '@admin/pages/products/create/admin-products-create-page.component'
       ),
   },
-  
+
   {
     path: 'edit/:productId',
     title: 'Edit Product',

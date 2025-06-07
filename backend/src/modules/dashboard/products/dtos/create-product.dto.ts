@@ -39,7 +39,7 @@ export class CreateProductDto {
 
     /* @IsNotEmpty()
     @IsArray()
-    @IsString({ each: true }) // Cada imagen debe ser una string (URL o nombre de archivo)
+    @IsString({ each: true })
     images?: string[]; */
 
     @IsNotEmpty()
@@ -91,7 +91,6 @@ export class CreateProductDto {
 
     @IsNotEmpty()
     @IsArray()
-    @ValidateNested({ each: true })
-    @Type(() => Object)
-    attributes?: Record<string, any>[];
+    @IsString({ each: true })
+    attributes?: string[];
 }

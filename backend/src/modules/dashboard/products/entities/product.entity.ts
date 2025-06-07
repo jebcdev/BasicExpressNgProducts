@@ -38,8 +38,8 @@ export class ProductEntity extends BaseEntity {
     @Column({ length: 255, nullable: true })
     short_description: string;
 
-    @Column({ type: "jsonb", nullable: true })
-    images: any;
+    @Column({ type: "text", nullable: true, array: true })
+    images: string[];
 
     @Column("numeric", { precision: 10, scale: 2 })
     price: number;
@@ -75,11 +75,11 @@ export class ProductEntity extends BaseEntity {
     @Column()
     brand_id: number;
 
-    @Column({ type: "jsonb", nullable: true })
-    tags: any;
+    @Column({ type: "text", nullable: true, array: true })
+    tags: string[];
 
-    @Column({ type: "jsonb", nullable: true })
-    attributes: any;
+    @Column({ type: "text", nullable: true, array: true })
+    attributes: string[];
 
     @ManyToOne(() => CategoryEntity, (category) => category.products)
     @JoinColumn({ name: "category_id" })
