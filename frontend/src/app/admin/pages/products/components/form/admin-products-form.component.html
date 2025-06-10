@@ -94,17 +94,41 @@
           <!-- images -->
           <div class="w-1/2">
             <label class="label" for="images">
-              <span class="label-text">Imagenes</span>
+              <span class="label-text">Imágenes</span>
             </label>
             <input
-              class="file-input file-input-bordered w-full mt-4"
+              class="file-input file-input-bordered w-full"
               type="file"
               multiple
               accept="image/*"
-              placeholder="Seleccionar imágenes"
-              formControlName="images"
+              (change)="onImagesSelected($event)"
             />
+            <div class="text-xs text-gray-500 mt-1">
+              Máximo 10 imágenes, 5MB por imagen
+            </div>
           </div>
+
+          <!-- Vista previa de imágenes seleccionadas -->
+          @if (imagePreviews.length > 0) {
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+              @for (preview of imagePreviews; track $index) {
+                <div class="relative">
+                  <img
+                    [src]="preview"
+                    [alt]="'Preview ' + ($index + 1)"
+                    class="w-full h-24 object-cover rounded border"
+                  />
+                  <button
+                    type="button"
+                    class="absolute -top-2 -right-2 btn btn-xs btn-circle btn-error"
+                    (click)="removeImagePreview($index)"
+                  >
+                    ×
+                  </button>
+                </div>
+              }
+            </div>
+          }
           <!-- images -->
         </div>
         <!-- Description | Images -->
@@ -116,44 +140,83 @@
           <!-- price -->
           <div class="w-1/3">
             <label class="label" for="price">
-              <span class="label-text">Precio</span>
+              <span class="label-text">Precio *</span>
             </label>
             <input
               type="number"
+              step="0.01"
               placeholder="99.99"
               class="input input-bordered w-full"
               formControlName="price"
+              (blur)="onPriceChange('price', $event)"
             />
           </div>
           <!-- price -->
           <!-- sale_price -->
           <div class="w-1/3">
             <label class="label" for="sale_price">
-              <span class="label-text">Precio de Venta</span>
+              <span class="label-text">Precio de Oferta</span>
             </label>
             <input
               type="number"
+              step="0.01"
               placeholder="89.99"
               class="input input-bordered w-full"
               formControlName="sale_price"
+              (blur)="onPriceChange('sale_price', $event)"
             />
+            <div class="text-xs text-gray-500 mt-1">
+              Debe ser menor que el precio regular
+            </div>
           </div>
           <!-- sale_price -->
           <!-- cost_price -->
           <div class="w-1/3">
             <label class="label" for="cost_price">
-              <span class="label-text">Costo</span>
+              <span class="label-text">Precio de Costo</span>
             </label>
             <input
               type="number"
+              step="0.01"
               placeholder="75.00"
               class="input input-bordered w-full"
               formControlName="cost_price"
+              (blur)="onPriceChange('cost_price', $event)"
             />
+            <div class="text-xs text-gray-500 mt-1">
+              Debe ser menor que los precios de venta
+            </div>
           </div>
           <!-- cost_price -->
         </div>
         <!-- price | sale_price | cost_price -->
+
+        <!-- Mostrar errores de validación de precios -->
+        @if (hasPriceErrors()) {
+          <div class="alert alert-warning mt-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="stroke-current shrink-0 h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"
+              />
+            </svg>
+            <div>
+              <h3 class="font-bold">Problemas con los precios:</h3>
+              <ul class="list-disc list-inside mt-1">
+                @for (error of getPriceValidationErrors(); track $index) {
+                  <li>{{ error }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        }
 
         <!-- stock_quantity | sku | barcode -->
         <div

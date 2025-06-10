@@ -23,9 +23,9 @@ export class ProductRoutes {
 
         this.router.get("/:id",VerifyIdMiddleware.validate,getById.bind(this.controller));
 
-        this.router.post("/", uploadProductImage.single('images'), createNew.bind(this.controller));
+        this.router.post("/", uploadProductImage.array('images'), createNew.bind(this.controller));
 
-        this.router.patch("/:id",VerifyIdMiddleware.validate,uploadProductImage.single('image'),updateById.bind(this.controller));
+        this.router.patch("/:id",VerifyIdMiddleware.validate,uploadProductImage.array('images'),updateById.bind(this.controller));
 
         this.router.delete("/:id",VerifyIdMiddleware.validate,deleteById.bind(this.controller));
     }

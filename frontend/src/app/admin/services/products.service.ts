@@ -21,7 +21,7 @@ export class ProductsService {
     return this._http.get<iProduct>(`${API_URL}/${id}`);
   }
 
-  create(data: iProduct): Observable<iProduct> {
+  create(data: FormData): Observable<iProduct> {
     return this._http.post<iProduct>(API_URL, data).pipe(
       tap((data) => {
         return data;
@@ -33,7 +33,7 @@ export class ProductsService {
     );
   }
 
-  updateById(id: number, data: iProduct): Observable<iProduct> {
+  updateById(id: number, data: FormData): Observable<iProduct> {
     const dataId = typeof id === 'string' ? parseInt(id, 10) : id;
 
     // Verificar si el rol está en la lista de prohibidos

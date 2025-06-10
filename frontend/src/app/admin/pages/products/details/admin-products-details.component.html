@@ -1,0 +1,465 @@
+<div>
+  <!-- Encabezado -->
+  <div
+    class="navbar flex justify-between border-b-accent border-b-2 p-1 bg-base-100 shadow-sm mb-4"
+  >
+    <div>
+      <h1
+        class="px-4 py-1 rounded-full bg-accent text-base-100 text-lg font-bold shadow-md"
+      >
+        Detalles del Producto
+      </h1>
+    </div>
+    <div class="flex gap-2">
+      <a
+        class="btn btn-primary"
+        [routerLink]="['/admin/products/edit', productId()]"
+      >
+        <i class="fas fa-edit"></i>
+        Editar
+      </a>
+      <a class="btn btn-accent" routerLink="/admin/products/">
+        <i class="fas fa-arrow-left"></i>
+        Volver
+      </a>
+    </div>
+  </div>
+  <!-- Encabezado -->
+
+  <!-- Contenido Principal -->
+  @if (productData.error()) {
+    <is-error />
+  } @else if (productData.isLoading()) {
+    <is-loading />
+  } @else if (productData.hasValue()) {
+    <!-- Detalles del Producto -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Columna Izquierda - Imágenes -->
+      <div class="lg:col-span-1">
+        <div class="card bg-base-100 shadow-xl">
+          <div class="card-body">
+            <h3 class="card-title text-lg mb-4">
+              <i class="fas fa-images text-primary"></i>
+              Imágenes del Producto
+            </h3>
+
+            <!-- Imagen Principal -->
+            <div class="mb-4">
+              <img
+                [src]="getMainImage(productData.value().images)"
+                [alt]="productData.value().name"
+                class="w-full h-64 object-cover rounded-lg border-2 border-base-200"
+                (error)="handleImageError($event)"
+              />
+            </div>
+
+            <!-- Galería de Imágenes -->
+            @if (
+              productData.value().images &&
+              productData.value().images.length > 1
+            ) {
+              <div class="grid grid-cols-3 gap-2">
+                @for (image of productData.value().images; track $index) {
+                  <img
+                    [src]="backendUrl + image"
+                    [alt]="
+                      productData.value().name + ' - Imagen ' + ($index + 1)
+                    "
+                    class="w-full h-20 object-cover rounded border cursor-pointer hover:opacity-80 transition-opacity"
+                    (error)="handleImageError($event)"
+                  />
+                }
+              </div>
+            } @else {
+              <div class="text-center text-gray-500 py-4">
+                <i class="fas fa-image text-4xl mb-2"></i>
+                <p>Solo hay una imagen disponible</p>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna Derecha - Información del Producto -->
+      <div class="lg:col-span-2">
+        <div class="grid gap-6">
+          <!-- Información Básica -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title text-lg mb-4">
+                <i class="fas fa-info-circle text-primary"></i>
+                Información Básica
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Código -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">Código:</span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    {{ productData.value().code }}
+                  </div>
+                </div>
+
+                <!-- SKU -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">SKU:</span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    {{ productData.value().sku || "No definido" }}
+                  </div>
+                </div>
+
+                <!-- Nombre -->
+                <div class="form-control md:col-span-2">
+                  <div class="label">
+                    <span class="label-text font-semibold">Nombre:</span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    {{ productData.value().name }}
+                  </div>
+                </div>
+
+                <!-- Slug -->
+                <div class="form-control md:col-span-2">
+                  <div class="label">
+                    <span class="label-text font-semibold">Slug:</span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    {{ productData.value().slug }}
+                  </div>
+                </div>
+
+                <!-- Estado -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">Estado:</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span
+                      class="badge badge-lg"
+                      [ngClass]="getStatusClass(productData.value().status)"
+                    >
+                      {{ getStatusLabel(productData.value().status) }}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Destacado -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">Destacado:</span>
+                  </div>
+                  <div class="flex items-center">
+                    @if (productData.value().featured) {
+                      <span class="badge badge-warning badge-lg">
+                        <i class="fas fa-star mr-1"></i>
+                        Destacado
+                      </span>
+                    } @else {
+                      <span class="badge badge-neutral badge-lg">Normal</span>
+                    }
+                  </div>
+                </div>
+
+                <!-- Código de Barras -->
+                <div class="form-control md:col-span-2">
+                  <div class="label">
+                    <span class="label-text font-semibold">
+                      Código de Barras:
+                    </span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    {{ productData.value().barcode || "No definido" }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Precios y Stock -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title text-lg mb-4">
+                <i class="fas fa-dollar-sign text-primary"></i>
+                Precios y Stock
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <!-- Precio -->
+                <div class="stat bg-primary/10 rounded-lg">
+                  <div class="stat-figure text-primary">
+                    <i class="fas fa-tag text-2xl"></i>
+                  </div>
+                  <div class="stat-title text-sm">Precio Regular</div>
+                  <div class="stat-value text-lg text-primary">
+                    ${{ formatPrice(productData.value().price) }}
+                  </div>
+                </div>
+
+                <!-- Precio de Oferta -->
+                <div class="stat bg-warning/10 rounded-lg">
+                  <div class="stat-figure text-warning">
+                    <i class="fas fa-percent text-2xl"></i>
+                  </div>
+                  <div class="stat-title text-sm">Precio Oferta</div>
+                  <div class="stat-value text-lg text-warning">
+                    @if (productData.value().sale_price) {
+                      ${{ formatPrice(productData.value().sale_price) }}
+                    } @else {
+                      <span class="text-gray-500 text-base">No aplica</span>
+                    }
+                  </div>
+                </div>
+
+                <!-- Precio de Costo -->
+                <div class="stat bg-info/10 rounded-lg">
+                  <div class="stat-figure text-info">
+                    <i class="fas fa-calculator text-2xl"></i>
+                  </div>
+                  <div class="stat-title text-sm">Precio Costo</div>
+                  <div class="stat-value text-lg text-info">
+                    @if (productData.value().cost_price) {
+                      ${{ formatPrice(productData.value().cost_price) }}
+                    } @else {
+                      <span class="text-gray-500 text-base">No definido</span>
+                    }
+                  </div>
+                </div>
+
+                <!-- Stock -->
+                <div class="stat bg-success/10 rounded-lg">
+                  <div class="stat-figure text-success">
+                    <i class="fas fa-boxes text-2xl"></i>
+                  </div>
+                  <div class="stat-title text-sm">Stock Disponible</div>
+                  <div
+                    class="stat-value text-lg"
+                    [ngClass]="{
+                      'text-success': productData.value().stock_quantity > 10,
+                      'text-warning':
+                        productData.value().stock_quantity > 0 &&
+                        productData.value().stock_quantity <= 10,
+                      'text-error': productData.value().stock_quantity === 0,
+                    }"
+                  >
+                    {{ productData.value().stock_quantity }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categoría y Marca -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title text-lg mb-4">
+                <i class="fas fa-sitemap text-primary"></i>
+                Categorización
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Categoría -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">Categoría:</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="badge badge-primary badge-lg">
+                      <i class="fas fa-folder mr-1"></i>
+                      {{
+                        productData.value().category?.name || "Sin categoría"
+                      }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Marca -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">Marca:</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="badge badge-secondary badge-lg">
+                      <i class="fas fa-copyright mr-1"></i>
+                      {{ productData.value().brand?.name || "Sin marca" }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title text-lg mb-4">
+                <i class="fas fa-align-left text-primary"></i>
+                Descripción
+              </h3>
+
+              <!-- Descripción Corta -->
+              @if (productData.value().short_description) {
+                <div class="mb-4">
+                  <div class="label">
+                    <span class="label-text font-semibold">
+                      Descripción Corta:
+                    </span>
+                  </div>
+                  <div class="p-3 bg-base-200 rounded-lg">
+                    <p class="text-gray-700">
+                      {{ productData.value().short_description }}
+                    </p>
+                  </div>
+                </div>
+              }
+
+              <!-- Descripción Completa -->
+              <div>
+                <div class="label">
+                  <span class="label-text font-semibold">
+                    Descripción Completa:
+                  </span>
+                </div>
+                <div class="p-3 bg-base-200 rounded-lg">
+                  <p class="text-gray-700 whitespace-pre-wrap">
+                    {{ productData.value().description }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tags y Atributos -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title text-lg mb-4">
+                <i class="fas fa-tags text-primary"></i>
+                Tags y Atributos
+              </h3>
+
+              <!-- Tags -->
+              <div class="mb-4">
+                <div class="label">
+                  <span class="label-text font-semibold">Tags:</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  @if (
+                    productData.value().tags &&
+                    productData.value().tags.length > 0
+                  ) {
+                    @for (tag of productData.value().tags; track $index) {
+                      <span class="badge badge-outline">
+                        <i class="fas fa-tag mr-1"></i>
+                        {{ tag }}
+                      </span>
+                    }
+                  } @else {
+                    <span class="text-gray-500">No hay tags definidos</span>
+                  }
+                </div>
+              </div>
+
+              <!-- Atributos -->
+              <div>
+                <div class="label">
+                  <span class="label-text font-semibold">Atributos:</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  @if (
+                    productData.value().attributes &&
+                    productData.value().attributes.length > 0
+                  ) {
+                    @for (
+                      attribute of productData.value().attributes;
+                      track $index
+                    ) {
+                      <span class="badge badge-info badge-outline">
+                        <i class="fas fa-list mr-1"></i>
+                        {{ attribute }}
+                      </span>
+                    }
+                  } @else {
+                    <span class="text-gray-500">
+                      No hay atributos definidos
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fechas -->
+          <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+              <h3 class="card-title text-lg mb-4">
+                <i class="fas fa-calendar text-primary"></i>
+                Información de Fechas
+              </h3>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Fecha de Creación -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">
+                      Fecha de Creación:
+                    </span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    @if (productData.value().created_at) {
+                      {{
+                        productData.value().created_at
+                          | date: "dd/MM/yyyy HH:mm"
+                      }}
+                    } @else {
+                      No disponible
+                    }
+                  </div>
+                </div>
+
+                <!-- Fecha de Actualización -->
+                <div class="form-control">
+                  <div class="label">
+                    <span class="label-text font-semibold">
+                      Última Actualización:
+                    </span>
+                  </div>
+                  <div
+                    class="input input-bordered flex items-center bg-base-200"
+                  >
+                    @if (productData.value().updated_at) {
+                      {{
+                        productData.value().updated_at
+                          | date: "dd/MM/yyyy HH:mm"
+                      }}
+                    } @else {
+                      No disponible
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Detalles del Producto -->
+  } @else {
+    <is-empty />
+  }
+  <!-- Contenido Principal -->
+</div>

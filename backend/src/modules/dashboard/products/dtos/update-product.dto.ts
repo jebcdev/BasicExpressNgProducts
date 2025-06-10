@@ -7,9 +7,8 @@ import {
     IsOptional,
     IsString,
     Length,
-    ValidateNested,
+    
 } from "class-validator";
-import { Type } from "class-transformer";
 import { ProductStatus } from "../entities/product.entity";
 
 export class UpdateProductDto {
@@ -37,10 +36,10 @@ export class UpdateProductDto {
     @Length(0, 255)
     short_description?: string;
 
-    /* @IsOptional()
+    @IsOptional()
     @IsArray()
     @IsString({ each: true })
-    images?: string[]; */
+    images?: string[];
 
     @IsOptional()
     @IsNumber()

@@ -145,6 +145,17 @@ export class AdminProductsTableComponent {
     }
   }
 
+  onView(row: Row<iProduct>) {
+    try {
+      this._router.navigate(['admin/products/details', row.original.id]);
+    } catch (error) {
+      console.error(error);
+      toast.error('Error al Ver el Registro', {
+        description: 'Error al Ver el Registro, por favor intente de nuevo',
+      });
+    }
+  }
+
   onDelete(row: Row<iProduct>) {
     try {
       if (this._productsService.forbidenIds.includes(row.original.id!)) {

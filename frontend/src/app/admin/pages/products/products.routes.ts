@@ -21,6 +21,12 @@ export const productsRoutes: Routes = [
     loadComponent: () =>
       import('@admin/pages/products/edit/admin-products-edit-page.component'),
   },
+  {
+    path: 'details/:productId',
+    title: 'Product Details',
+    loadComponent: () =>
+      import('@admin/pages/products/details/admin-products-details.component'),
+  },
 ];
 
 export default productsRoutes;

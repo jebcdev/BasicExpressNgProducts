@@ -28,6 +28,11 @@ export class RootRoutes {
             "/",
             RootController.root.bind(RootController)
         );
+
+        this.router.use("/auth", new AuthRoutes().router); // Registrar las rutas de autenticación
+
+        this.router.use("/seeder", new SeederRoutes().router); // Registrar las rutas de seeder
+
         this.router.use(
             "/roles",
             TokenExistsMiddleware.check,
@@ -36,7 +41,7 @@ export class RootRoutes {
         ); // Registrar las rutas de los roles
         this.router.use(
             "/users",
-            TokenExistsMiddleware.check,// Verifica si el token existe
+            TokenExistsMiddleware.check, // Verifica si el token existe
             IsAdminMiddleware.check, // Verifica si el usuario es administrador
             new UserRoutes().router
         ); // Registrar las rutas de los usuarios
@@ -47,8 +52,5 @@ export class RootRoutes {
             IsAdminMiddleware.check,
             new DashboardRoutes().router
         ); // Registrar las rutas del dashboard
-        
-        this.router.use("/auth", new AuthRoutes().router); // Registrar las rutas de autenticación
-        this.router.use("/seeder", new SeederRoutes().router); // Registrar las rutas de seeder
     }
 }

@@ -6,7 +6,10 @@ import { UpdateResult } from "typeorm";
 import { CreateProductDto, UpdateProductDto } from "./../dtos";
 import { ProductService } from "../services/product.service";
 import { ProductEntity } from "../entities/product.entity";
-import { deleteFile } from "../../../../utils/fileHelpers.util"; //TODO: investigar para borrar varios archivos
+import {
+    deleteFile,
+    deleteProductImages,
+} from "../../../../utils/fileHelpers.util"; //TODO: investigar para borrar varios archivos
 import e from "cors";
 
 export class ProductController {
@@ -62,9 +65,50 @@ export class ProductController {
 
     public async createNew(req: Request, res: Response) {
         try {
+            // Transformar los datos del form-data antes de crear el DTO
+            const transformedBody = {
+                ...req.body,
+                // Convertir strings a numbers
+                price: req.body.price
+                    ? parseFloat(req.body.price)
+                    : undefined,
+                sale_price: req.body.sale_price
+                    ? parseFloat(req.body.sale_price)
+                    : undefined,
+                cost_price: req.body.cost_price
+                    ? parseFloat(req.body.cost_price)
+                    : undefined,
+                stock_quantity: req.body.stock_quantity
+                    ? parseInt(req.body.stock_quantity)
+                    : undefined,
+                category_id: req.body.category_id
+                    ? parseInt(req.body.category_id)
+                    : undefined,
+                brand_id: req.body.brand_id
+                    ? parseInt(req.body.brand_id)
+                    : undefined,
+                // Convertir string a boolean - CORREGIR ESTA PARTE
+                featured:
+                    req.body.featured !== undefined
+                        ? req.body.featured === "true" ||
+                          req.body.featured === true
+                        : false, // Valor por defecto
+                // Convertir strings a arrays (si vienen como JSON strings)
+                tags: req.body.tags
+                    ? typeof req.body.tags === "string"
+                        ? JSON.parse(req.body.tags)
+                        : req.body.tags
+                    : undefined,
+                attributes: req.body.attributes
+                    ? typeof req.body.attributes === "string"
+                        ? JSON.parse(req.body.attributes)
+                        : req.body.attributes
+                    : undefined,
+            };
+
             const dto: CreateProductDto = plainToInstance(
                 CreateProductDto,
-                req.body
+                transformedBody
             );
 
             const errors: ValidationError[] = await validate(dto);
@@ -95,11 +139,19 @@ export class ProductController {
                     .status(400)
                     .json("Product Slug Already Exists");
 
-            const imageUrl = req.file
-                ? `/public/uploads/products/${req.file.filename}`
-                : null;
+            // Procesar múltiples imágenes
+            const files = req.files as Express.Multer.File[];
+            const imageUrls: string[] = [];
 
-            const productData = { ...dto, image: imageUrl };
+            if (files && files.length > 0) {
+                files.forEach((file) => {
+                    imageUrls.push(
+                        `/public/uploads/products/${file.filename}`
+                    );
+                });
+            }
+
+            const productData = { ...dto, images: imageUrls };
 
             const data: ProductEntity | null =
                 await this.service.createNew(
@@ -121,6 +173,7 @@ export class ProductController {
         }
     }
 
+    // ...existing code...
     public async updateById(
         req: Request,
         res: Response
@@ -134,9 +187,53 @@ export class ProductController {
             if (!toUpdate)
                 return res.status(404).json("Product Not Found");
 
+            const transformedBody = {
+                ...req.body,
+                code:
+                    req.body.code && req.body.code.trim() !== ""
+                        ? req.body.code.trim()
+                        : toUpdate.code,
+                price: req.body.price
+                    ? parseFloat(req.body.price)
+                    : undefined,
+                sale_price: req.body.sale_price
+                    ? parseFloat(req.body.sale_price)
+                    : undefined,
+                cost_price: req.body.cost_price
+                    ? parseFloat(req.body.cost_price)
+                    : undefined,
+                stock_quantity: req.body.stock_quantity
+                    ? parseInt(req.body.stock_quantity)
+                    : undefined,
+                category_id: req.body.category_id
+                    ? parseInt(req.body.category_id)
+                    : undefined,
+                brand_id: req.body.brand_id
+                    ? parseInt(req.body.brand_id)
+                    : undefined,
+                // Corregir la lógica para featured
+                featured:
+                    req.body.featured !== undefined
+                        ? req.body.featured === "true" ||
+                          req.body.featured === true
+                        : undefined, // Cambiar false por undefined
+                tags: req.body.tags
+                    ? typeof req.body.tags === "string"
+                        ? JSON.parse(req.body.tags)
+                        : req.body.tags
+                    : undefined,
+                attributes: req.body.attributes
+                    ? typeof req.body.attributes === "string"
+                        ? JSON.parse(req.body.attributes)
+                        : req.body.attributes
+                    : undefined,
+            };
+
+            console.log(transformedBody);
+
             const dto: UpdateProductDto = plainToInstance(
                 UpdateProductDto,
-                req.body
+                transformedBody
             );
 
             const errors: ValidationError[] = await validate(dto);
@@ -152,14 +249,28 @@ export class ProductController {
                 });
             }
 
-            // Si se sube una nueva imagen, elimina la anterior
-            /* if (req.file) {
-                if (toUpdate.images) {
-                    deleteFile(toUpdate.images); // Aquí ahora ya pasa el path tal cual /uploads/products/abc123.png
-                }
-                toUpdate.images = `/public/uploads/products/${req.file.filename}`; // Guarda nueva ruta
-            } */
+            // Procesar nuevas imágenes si se suben
+            const files = req.files as Express.Multer.File[];
 
+            if (files && files.length > 0) {
+                // Si vienen nuevas imágenes, borrar las anteriores
+                if (toUpdate.images && toUpdate.images.length > 0) {
+                    deleteProductImages(toUpdate.images);
+                }
+
+                // Procesar las nuevas imágenes
+                const newImageUrls: string[] = [];
+                files.forEach((file) => {
+                    newImageUrls.push(
+                        `/public/uploads/products/${file.filename}`
+                    );
+                });
+
+                toUpdate.images = newImageUrls;
+            }
+            // Si no vienen nuevas imágenes, conservar las anteriores
+
+            toUpdate.code = dto.code || toUpdate.code;
             toUpdate.name = dto.name || toUpdate.name;
             toUpdate.slug = dto.slug || toUpdate.slug;
             toUpdate.description =
@@ -176,7 +287,7 @@ export class ProductController {
             toUpdate.sku = dto.sku || toUpdate.sku;
             toUpdate.barcode = dto.barcode || toUpdate.barcode;
             toUpdate.featured =
-                typeof dto.featured === "boolean"
+                dto.featured !== undefined // Cambiar la lógica aquí también
                     ? dto.featured
                     : toUpdate.featured;
             toUpdate.status = dto.status || toUpdate.status;
@@ -209,6 +320,7 @@ export class ProductController {
             });
         }
     }
+    // ...existing code...
 
     public async deleteById(
         req: Request,

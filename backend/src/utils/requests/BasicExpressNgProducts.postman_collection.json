@@ -1,31 +1,20 @@
 {
 	"info": {
-		"_postman_id": "8b605b3e-1b3c-4ea6-957a-c3a2bab74434",
+		"_postman_id": "10199729-40ed-4e27-83b9-7698b6eb74ff",
 		"name": "BasicExpressNgProducts",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "30338624",
-		"_collection_link": "https://apiteam-3441.postman.co/workspace/Angular~0aa54568-b966-42f4-bc2a-a0a6981604a5/collection/30338624-8b605b3e-1b3c-4ea6-957a-c3a2bab74434?action=share&source=collection_link&creator=30338624"
+		"_collection_link": "https://apiteam-3441.postman.co/workspace/Angular~0aa54568-b966-42f4-bc2a-a0a6981604a5/collection/30338624-10199729-40ed-4e27-83b9-7698b6eb74ff?action=share&source=collection_link&creator=30338624"
 	},
 	"item": [
 		{
-			"name": "_Root",
+			"name": "Root",
 			"item": [
 				{
-					"name": "_Root",
+					"name": "Root",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "{{baseUrl}}",
 							"host": [
@@ -35,140 +24,465 @@
 					},
 					"response": []
 				}
-			]
-		},
-		{
-			"name": "Seeders",
-			"item": [
-				{
-					"name": "RolesUsers",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/seeder/rolesusers",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"seeder",
-								"rolesusers"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Categories",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/seeder/categories",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"seeder",
-								"categories"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Brands",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"url": {
-							"raw": "{{baseUrl}}/seeder/brands",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"seeder",
-								"brands"
-							]
-						}
-					},
-					"response": []
-				}
-			]
+			],
+			"description": "Raiz de la API"
 		},
 		{
 			"name": "Auth",
 			"item": [
 				{
-					"name": "Register",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
+					"name": "Roles",
+					"item": [
+						{
+							"name": "GetAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
 							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Juan Esteban\",\r\n    \"surname\":\"Benjumea Correa\",\r\n    \"email\":\"jebcdev@gmail.com\",\r\n    \"password\":\"12345678\",\r\n    \"role_id\":2\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/roles/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										""
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "{{baseUrl}}/auth/register",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"auth",
-								"register"
-							]
+						{
+							"name": "GetAllById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/roles/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateNew",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"New Role\",\r\n    \"description\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/roles/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"New Role Edited\",\r\n    \"description\":\"New Role Edited\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/roles/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/roles/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"roles",
+										"4"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"description": "Gestion de roles"
+				},
+				{
+					"name": "Users",
+					"item": [
+						{
+							"name": "GetAll",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetAllById",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/1",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateNew",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"name\": \"Nuevo\",\r\n\t\"surname\": \"usuario\",\r\n\t\"email\": \"nuevo@usuario.com\",\r\n\t\"password\":\"12345678\",\r\n\t\"role_id\":1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UpdateById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Tael\",\r\n    \"surname\":\"Yang\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DeleteById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{adminToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/users/4",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"users",
+										"4"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Gestion de usuarios"
 				},
 				{
 					"name": "Login",
@@ -179,16 +493,11 @@
 								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\r\n    \"email\":\"admin@admin.com\",\r\n    \"password\":\"12345678\"\r\n}\r\n\r\n// {\r\n\r\n//     \"email\":\"jebcdev@gmail.com\",\r\n//     \"password\":\"12345678\"\r\n// }",
+							"raw": "{\r\n    \"email\":\"admin@admin.com\",\r\n    \"password\":\"12345678\"\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -216,7 +525,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{adminToken}}",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -225,11 +534,6 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
 							}
@@ -264,7 +568,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{adminToken}}",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -273,11 +577,6 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/json",
-								"type": "text"
-							},
-							{
-								"key": "Content-Type",
 								"value": "application/json",
 								"type": "text"
 							}
@@ -312,7 +611,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "{{adminToken}}",
+									"value": "{{vault:authorization-secret}}",
 									"type": "string"
 								}
 							]
@@ -323,16 +622,11 @@
 								"key": "Accept",
 								"value": "application/json",
 								"type": "text"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Super Hyper Mega Admin\"\r\n}",
+							"raw": "{\r\n    \"name\":\"Updated User\",\r\n    \"surname\":\"Updated User\",\r\n    \"email\":\"updatedUser@updatedUser.com\",\r\n    \"password\":\"12345678\",\r\n    \"role_id\":2\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -351,520 +645,64 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{vault:authorization-secret}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"admin@admin.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
 				}
-			]
+			],
+			"description": "Gestion de lo que tiene que ver con registro, inicio de sesion , perfil, token, gestion de roles, usuarios"
 		},
 		{
 			"name": "Dashboard",
 			"item": [
 				{
-					"name": "Roles",
-					"item": [
-						{
-							"name": "getAll",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/roles",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"roles"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getById",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/roles/4",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"roles",
-										"4"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "createNew",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"reader\",\r\n    \"description\":\"reader system user\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/roles/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"roles",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "updateById",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"description\":\"Updated Reader System User\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/roles/4",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"roles",
-										"4"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "deleteById",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/roles/4",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"roles",
-										"4"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
-					"name": "Users",
-					"item": [
-						{
-							"name": "getAll",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/users",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"users"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "getById",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/users/5",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"users",
-										"5"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "createNew",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"name\":\"Tael\",\r\n    \"surname\":\"Tang\",\r\n    \"email\":\"taelyang@gmail.com\",\r\n    \"password\":\"12345678\",\r\n    \"role_id\":1\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/users/",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"users",
-										""
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "updateById",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"role_id\":3\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/users/5",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"users",
-										"5"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "deleteById",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/users/5",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"users",
-										"5"
-									]
-								}
-							},
-							"response": []
-						}
-					]
-				},
-				{
 					"name": "Categories",
 					"item": [
 						{
-							"name": "getAll",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "GetAll",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -877,27 +715,7 @@
 									]
 								},
 								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
 									"raw": "{{baseUrl}}/dashboard/categories",
 									"host": [
@@ -912,10 +730,7 @@
 							"response": []
 						},
 						{
-							"name": "getById",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "GetById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -928,96 +743,23 @@
 									]
 								},
 								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/categories/4",
+									"raw": "{{baseUrl}}/dashboard/categories/1",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"categories",
-										"4"
+										"1"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "getBySlug",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/dashboard/categories/slug/learning-js-ecosyste",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"dashboard",
-										"categories",
-										"slug",
-										"learning-js-ecosyste"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "createNew",
+							"name": "CreateNew",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1030,58 +772,48 @@
 									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Learning Js EcoSystem",
-											"type": "text"
+											"key": "image",
+											"type": "file",
+											"src": "/D:/img/bg/magin-vegeta-face-smilling-bw.png"
 										},
 										{
-											"key": "slug",
-											"value": "learning-js-ecosystem",
+											"key": "name",
+											"value": "a new",
 											"type": "text"
 										},
 										{
 											"key": "description",
-											"value": "this is a js ecosystem self-learning videos",
+											"value": "category",
 											"type": "text"
 										},
 										{
-											"key": "image",
-											"type": "file",
-											"src": "/D:/img/nodeJs/angular19.png"
+											"key": "slug",
+											"value": "new-category",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/categories",
+									"raw": "{{baseUrl}}/dashboard/categories/",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
-										"categories"
+										"categories",
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "updateById",
+							"name": "UpdateById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1094,43 +826,38 @@
 									]
 								},
 								"method": "PATCH",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n \"name\":\"Self-Learning\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/img/bg/vegetablueconcept.jpg"
+										},
+										{
+											"key": "name",
+											"value": "Edited",
+											"type": "text"
 										}
-									}
+									]
 								},
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/categories/4",
+									"raw": "{{baseUrl}}/dashboard/categories/5",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"categories",
-										"4"
+										"5"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "deleteById",
+							"name": "DelteById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1143,36 +870,16 @@
 									]
 								},
 								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/categories/4",
+									"raw": "{{baseUrl}}/dashboard/categories/5",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"categories",
-										"4"
+										"5"
 									]
 								}
 							},
@@ -1184,10 +891,7 @@
 					"name": "Brands",
 					"item": [
 						{
-							"name": "getAll",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "GetAll",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1200,27 +904,7 @@
 									]
 								},
 								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
 									"raw": "{{baseUrl}}/dashboard/brands",
 									"host": [
@@ -1235,10 +919,7 @@
 							"response": []
 						},
 						{
-							"name": "getById",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "GetById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1251,96 +932,23 @@
 									]
 								},
 								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/brands/7",
+									"raw": "{{baseUrl}}/dashboard/brands/5",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"brands",
-										"7"
+										"5"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "getBySlug",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/dashboard/brands/slug/dell",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"dashboard",
-										"brands",
-										"slug",
-										"dell"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "createNew",
+							"name": "CreateNew",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1353,58 +961,48 @@
 									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "formdata",
 									"formdata": [
 										{
-											"key": "name",
-											"value": "Vegeta",
-											"type": "text"
+											"key": "image",
+											"type": "file",
+											"src": "/D:/img/bg/vegetaDrinkingCoffeBW.jpg"
 										},
 										{
-											"key": "slug",
-											"value": "vegeta",
+											"key": "name",
+											"value": "New Brand",
 											"type": "text"
 										},
 										{
 											"key": "description",
-											"value": "The most powerfull Super Saiyan",
+											"value": "New Brand",
 											"type": "text"
 										},
 										{
-											"key": "image",
-											"type": "file",
-											"src": "/D:/img/bg/majin-vegeta.png"
+											"key": "slug",
+											"value": "new-brand",
+											"type": "text"
 										}
 									]
 								},
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/brands",
+									"raw": "{{baseUrl}}/dashboard/brands/",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
-										"brands"
+										"brands",
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "updateById",
+							"name": "UpdateById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1417,43 +1015,38 @@
 									]
 								},
 								"method": "PATCH",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
-									"mode": "raw",
-									"raw": "{\r\n \"name\":\"Majin Vegeta\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/D:/img/bg/vegetablueconcept.jpg"
+										},
+										{
+											"key": "name",
+											"value": "Edited",
+											"type": "text"
 										}
-									}
+									]
 								},
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/brands/7",
+									"raw": "{{baseUrl}}/dashboard/brands/5",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"brands",
-										"7"
+										"5"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "deleteById",
+							"name": "DelteById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1466,36 +1059,16 @@
 									]
 								},
 								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/brands/2",
+									"raw": "{{baseUrl}}/dashboard/brands/6",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"brands",
-										"2"
+										"6"
 									]
 								}
 							},
@@ -1507,10 +1080,7 @@
 					"name": "Products",
 					"item": [
 						{
-							"name": "getAll",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "GetAll",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1523,27 +1093,7 @@
 									]
 								},
 								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
 									"raw": "{{baseUrl}}/dashboard/products",
 									"host": [
@@ -1558,10 +1108,7 @@
 							"response": []
 						},
 						{
-							"name": "getById",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
+							"name": "GetById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1574,43 +1121,23 @@
 									]
 								},
 								"method": "GET",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/products/1",
+									"raw": "{{baseUrl}}/dashboard/products/11",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"products",
-										"1"
+										"11"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "createNew",
+							"name": "CreateNew",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1623,156 +1150,10 @@
 									]
 								},
 								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "multipart/form-data",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "formdata",
-									"formdata": [
-										{
-											"key": "code",
-											"value": "00002",
-											"type": "text"
-										},
-										{
-											"key": "name",
-											"value": "desde postman",
-											"type": "text"
-										},
-										{
-											"key": "slug",
-											"value": "desde-postman",
-											"type": "text"
-										},
-										{
-											"key": "description",
-											"value": "prueba de envio desde postman. prueba de envio desde postman. prueba de envio desde postman. prueba de envio desde postman. prueba de envio desde postman. ",
-											"type": "text"
-										},
-										{
-											"key": "short_description",
-											"value": "short desde postman. ",
-											"type": "text"
-										},
-										{
-											"key": "images",
-											"type": "file",
-											"src": []
-										},
-										{
-											"key": "price",
-											"value": "20000",
-											"type": "text"
-										},
-										{
-											"key": "sale_price",
-											"value": "22000",
-											"type": "text"
-										},
-										{
-											"key": "cost_price",
-											"value": "20000",
-											"type": "text"
-										},
-										{
-											"key": "stock_quantity",
-											"value": "20",
-											"type": "text"
-										},
-										{
-											"key": "sku",
-											"value": "VG-SSYJ",
-											"type": "text"
-										},
-										{
-											"key": "barcode",
-											"value": "123456789",
-											"type": "text"
-										},
-										{
-											"key": "featured",
-											"value": "0",
-											"type": "text"
-										},
-										{
-											"key": "status",
-											"value": "published",
-											"type": "text"
-										},
-										{
-											"key": "category_id",
-											"value": "2",
-											"type": "text"
-										},
-										{
-											"key": "brand_id",
-											"value": "2",
-											"type": "text"
-										},
-										{
-											"key": "tags",
-											"value": "un tag",
-											"type": "text"
-										},
-										{
-											"key": "attributes",
-											"value": "un attribute",
-											"type": "text"
-										}
-									]
-								},
-								"url": {
-									"raw": "{{baseUrl}}/dashboard/products",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"dashboard",
-										"products"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "createNewJson",
-							"request": {
-								"auth": {
-									"type": "bearer",
-									"bearer": [
-										{
-											"key": "token",
-											"value": "{{adminToken}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "multipart/form-data",
-										"type": "text",
-										"disabled": true
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"code\": \"P001\",\r\n    \"name\": \"Product Name\",\r\n    \"slug\": \"product-name\",\r\n    \"description\": \"This is a product description.\",\r\n    \"short_description\": \"Short description\",\r\n    \"images\": [\"image1.jpg\", \"image2.jpg\"],\r\n    \"price\": 100.50,\r\n    \"sale_price\": 90.00,\r\n    \"cost_price\": 70.00,\r\n    \"stock_quantity\": 50,\r\n    \"sku\": \"SKU001\",\r\n    \"barcode\": \"123456789\",\r\n    \"featured\": true,\r\n    \"status\": \"published\",\r\n    \"category_id\": 1,\r\n    \"brand_id\": 2,\r\n    \"tags\": [\"tag1\", \"tag2\"],\r\n    \"attributes\": [{\"key\": \"color\", \"value\": \"red\"}]\r\n}",
+									"raw": "{\r\n  \"code\": \"PROD-011\",\r\n  \"name\": \"Microsoft Surface Laptop 5\",\r\n  \"slug\": \"microsoft-surface-laptop-5\",\r\n  \"description\": \"Sleek and powerful laptop with premium design, featuring Windows 11 and all-day battery life. Perfect for productivity and creativity.\",\r\n  \"short_description\": \"Microsoft Surface Laptop 5 with premium design\",\r\n  \"price\": 1299.99,\r\n  \"sale_price\": 1199.99,\r\n  \"cost_price\": 850.00,\r\n  \"stock_quantity\": 20,\r\n  \"sku\": \"MS-SURF-LAP5-2023\",\r\n  \"barcode\": \"0889842640121\",\r\n  \"featured\": true,\r\n  \"status\": \"published\",\r\n  \"category_id\": 1,\r\n  \"brand_id\": 2,\r\n  \"tags\": [\"laptop\", \"microsoft\", \"surface\", \"windows\"],\r\n  \"attributes\": [\"13.5 inch\", \"Intel i7\", \"16GB RAM\", \"512GB SSD\", \"Windows 11\"]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1780,20 +1161,21 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/products",
+									"raw": "{{baseUrl}}/dashboard/products/",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
-										"products"
+										"products",
+										""
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "updateById",
+							"name": "UpdateById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1806,21 +1188,10 @@
 									]
 								},
 								"method": "PATCH",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
+								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n \"name\":\"Majin Vegeta\"\r\n}",
+									"raw": "{\r\n  \r\n  \"name\": \"Microsoft Surface Laptop 5 Edited\",\r\n  \"slug\": \"microsoft-surface-laptop-5 Updated\"\r\n  \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1828,21 +1199,21 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/products/2",
+									"raw": "{{baseUrl}}/dashboard/products/11",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"products",
-										"2"
+										"11"
 									]
 								}
 							},
 							"response": []
 						},
 						{
-							"name": "deleteById",
+							"name": "DelteById",
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -1855,42 +1226,132 @@
 									]
 								},
 								"method": "DELETE",
-								"header": [
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Content-Type",
-										"value": "application/json",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
+								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/dashboard/products/1",
+									"raw": "{{baseUrl}}/dashboard/products/11",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"dashboard",
 										"products",
-										"1"
+										"11"
 									]
 								}
 							},
 							"response": []
 						}
+					],
+					"auth": {
+						"type": "bearer",
+						"bearer": [
+							{
+								"key": "token",
+								"value": "{{adminToken}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						}
 					]
+				}
+			],
+			"description": "Administracion del sistema: Categorias y productos"
+		},
+		{
+			"name": "Seeder",
+			"item": [
+				{
+					"name": "RolesUsers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/seeder/rolesusers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seeder",
+								"rolesusers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Categories",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/seeder/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seeder",
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Brands",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/seeder/brands",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seeder",
+								"brands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Products",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/seeder/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"seeder",
+								"products"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

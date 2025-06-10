@@ -22,4 +22,33 @@ export const deleteFile = (filePath: string) => {
   } else {
     console.log(`File not found: ${fullPath}`);
   }
+
+
+  
+
+};
+
+
+// Nueva función para borrar múltiples archivos
+export const deleteMultipleFiles = (filePaths: string[]): void => {
+    if (!filePaths || !Array.isArray(filePaths)) return;
+    
+    filePaths.forEach(filePath => {
+        if (filePath) {
+            deleteFile(filePath);
+        }
+    });
+};
+
+// Función para borrar archivos de imágenes de productos
+export const deleteProductImages = (images: string[]): void => {
+    if (!images || !Array.isArray(images)) return;
+    
+    images.forEach(imagePath => {
+        if (imagePath) {
+            // Remover el prefijo /public si existe para obtener la ruta correcta
+            const cleanPath = imagePath.replace(/^\/public/, '');
+            deleteFile(cleanPath);
+        }
+    });
 };

@@ -29,12 +29,13 @@ export class SeederRoutes {
     // Método público que define las rutas para el enrutador.
     public initializeRoutes(): void { 
         // Extrae el método seedRolesUsers del controlador para usarlo en la ruta.
-        const { seedRolesUsers ,seedCategories,seedBrands} = this.controller; 
+        const { seedRolesUsers ,seedCategories,seedBrands,seedProducts} = this.controller; 
 
         // Define una ruta POST en "/rolesusers" que ejecuta el método seedRolesUsers.
         // Se utiliza .bind(this.controller) para mantener el contexto correcto de "this" dentro del método.
         this.router.post("/rolesusers", seedRolesUsers.bind(this.controller)); 
         this.router.post("/categories", seedCategories.bind(this.controller)); 
         this.router.post("/brands", seedBrands.bind(this.controller)); 
+        this.router.post("/products", seedProducts.bind(this.controller)); 
     } 
 }

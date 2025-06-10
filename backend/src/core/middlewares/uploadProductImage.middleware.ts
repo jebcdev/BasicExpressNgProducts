@@ -55,4 +55,12 @@ const fileFilter = (
     }
 };
 
-export const uploadProductImage = multer({ storage, fileFilter });
+// Configuración para múltiples imágenes (máximo 10)
+export const uploadProductImage = multer({ 
+    storage, 
+    fileFilter,
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 5MB por archivo
+        files: 10 // máximo 10 archivos
+    }
+});

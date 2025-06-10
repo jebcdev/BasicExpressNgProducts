@@ -170,7 +170,7 @@ export const productsTableColumns: ColumnDef<iProduct>[] = [
     enableSorting: false,
     enableHiding: false,
     enableColumnFilter: false,
-    size: 120,
+    size: 200,
   },
 ];
 

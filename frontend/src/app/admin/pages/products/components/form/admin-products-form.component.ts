@@ -26,7 +26,7 @@ import {
 } from '@admin/services/';
 import { generateSlug } from '@shared/utils/generate-slug.util';
 import { eProductStatus } from '@admin/enums';
-import { iProduct } from '@admin/interfaces';
+
 import { convertStringToArray } from '@shared/utils';
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -74,6 +74,7 @@ export class AdminProductsFormComponent {
     value: status,
     label: this.getStatusLabel(status),
   }));
+
   getStatusLabel(status: eProductStatus): string {
     switch (status) {
       case eProductStatus.DRAFT:
@@ -116,7 +117,9 @@ export class AdminProductsFormComponent {
     },
   });
 
-  public imagePreview: string | ArrayBuffer | null = null;
+  // Cambiar de imagePreview a imagePreviews para múltiples imágenes
+  public imagePreviews: string[] = [];
+  public selectedFiles: File[] = [];
 
   // Opciones para selects
   public statusOptions = [
@@ -143,7 +146,7 @@ export class AdminProductsFormComponent {
       [Validators.required, Validators.minLength(4), Validators.maxLength(500)],
     ],
     short_description: ['', [Validators.maxLength(255)]],
-    price: ['', [Validators.required, Validators.min(0)]],
+    price: ['', [Validators.required, Validators.min(0.01)]],
     sale_price: ['', [Validators.min(0)]],
     cost_price: ['', [Validators.min(0)]],
     stock_quantity: [0, [Validators.required, Validators.min(0)]],
@@ -155,7 +158,7 @@ export class AdminProductsFormComponent {
     brand_id: [null, [Validators.required]],
     tags: [[]],
     attributes: [[]],
-    images: [null], // Para el archivo de imagen
+    // images: [null], // Para el archivo de imagen
   });
 
   onNameChanged(event: Event) {
@@ -178,32 +181,135 @@ export class AdminProductsFormComponent {
     this.form.reset();
   }
 
-  onImageSelected(event: Event): void {
+  // Validación de lógica de precios
+  private validatePriceLogic(): { isValid: boolean; errors: string[] } {
+    const price = parseFloat(this.form.value.price) || 0;
+    const salePrice = parseFloat(this.form.value.sale_price) || 0;
+    const costPrice = parseFloat(this.form.value.cost_price) || 0;
+
+    const errors: string[] = [];
+
+    // Validar que el precio de venta sea menor que el precio regular
+    if (salePrice > 0 && salePrice >= price) {
+      errors.push('El precio en oferta debe ser menor que el precio regular');
+    }
+
+    // Validar que el precio de costo sea menor que el precio regular
+    if (costPrice > 0 && costPrice >= price) {
+      errors.push('El precio de costo debe ser menor que el precio regular');
+    }
+
+    // Validar que el precio de costo sea menor que el precio de venta
+    if (salePrice > 0 && costPrice > 0 && costPrice >= salePrice) {
+      errors.push('El precio de costo debe ser menor que el precio en oferta');
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+    };
+  }
+
+  // Nueva función para manejar múltiples imágenes
+  onImagesSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files || input.files.length === 0) {
       return;
     }
 
-    const file = input.files[0];
+    const files = Array.from(input.files);
 
-    // Validar que el archivo sea una imagen
-    if (!file.type.startsWith('image/')) {
-      toast.error('Archivo inválido', {
-        description: 'Por favor, selecciona un archivo de imagen válido.',
+    // Validar número máximo de archivos
+    if (files.length > 10) {
+      toast.error('Demasiadas imágenes', {
+        description: 'Máximo 10 imágenes permitidas.',
         duration: 3000,
       });
       return;
     }
 
-    // Asignar el archivo al control del formulario
-    this.form.patchValue({ images: file });
+    // Validar que todos los archivos sean imágenes
+    const invalidFiles = files.filter(
+      (file) => !file.type.startsWith('image/'),
+    );
+    if (invalidFiles.length > 0) {
+      toast.error('Archivos inválidos', {
+        description: 'Solo se permiten archivos de imagen.',
+        duration: 3000,
+      });
+      return;
+    }
 
-    // Generar vista previa de la imagen
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result;
-    };
-    reader.readAsDataURL(file);
+    // Validar tamaño de archivos (5MB máximo por archivo)
+    const oversizedFiles = files.filter((file) => file.size > 5 * 1024 * 1024);
+    if (oversizedFiles.length > 0) {
+      toast.error('Archivos muy grandes', {
+        description: 'Cada imagen debe ser menor a 5MB.',
+        duration: 3000,
+      });
+      return;
+    }
+
+    // Guardar archivos seleccionados
+    this.selectedFiles = files;
+
+    // Generar vistas previas
+    this.imagePreviews = [];
+    files.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreviews.push(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Función para remover vista previa de imagen
+  removeImagePreview(index: number): void {
+    this.imagePreviews.splice(index, 1);
+    this.selectedFiles.splice(index, 1);
+  }
+
+  // Validar precios en tiempo real
+  onPriceChange(field: string, event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+
+    // Actualizar el campo correspondiente
+    this.form.patchValue({ [field]: value });
+
+    // Validar después de un pequeño delay para no spam
+    setTimeout(() => {
+      this.validatePricesInRealTime();
+    }, 300);
+  }
+
+  private validatePricesInRealTime(): void {
+    const validation = this.validatePriceLogic();
+
+    if (!validation.isValid && validation.errors.length > 0) {
+      // Solo mostrar toast si hay valores en los campos
+      const price = parseFloat(this.form.value.price) || 0;
+      const salePrice = parseFloat(this.form.value.sale_price) || 0;
+      const costPrice = parseFloat(this.form.value.cost_price) || 0;
+
+      if (price > 0 && (salePrice > 0 || costPrice > 0)) {
+        toast.warning('Advertencia en Precios', {
+          description: validation.errors[0], // Solo mostrar el primer error
+          duration: 2000,
+        });
+      }
+    }
+  }
+
+  // Obtener errores de validación de precios para mostrar en la UI
+  getPriceValidationErrors(): string[] {
+    const validation = this.validatePriceLogic();
+    return validation.errors;
+  }
+
+  // Verificar si hay errores de precios
+  hasPriceErrors(): boolean {
+    return !this.validatePriceLogic().isValid;
   }
 
   onSubmit() {
@@ -213,21 +319,92 @@ export class AdminProductsFormComponent {
           description: 'Por Favor Verifique los Campos',
           duration: 3000,
         });
+        // Recorrer todos los controles del formulario
+        Object.keys(this.form.controls).forEach((key) => {
+          const control = this.form.get(key);
+
+          if (control && control.errors) {
+            console.log(`Error en el campo ${key}:`, control.errors);
+          }
+        });
         return;
       }
 
-      const data: iProduct = {
-        ...this.form.value,
-        tags: convertStringToArray(this.form.value.tags),
-        attributes: convertStringToArray(this.form.value.attributes),
+      // Validar lógica de precios
+      const priceValidation = this.validatePriceLogic();
+      if (!priceValidation.isValid) {
+        toast.error('Error en los Precios', {
+          description: priceValidation.errors.join('. '),
+          duration: 4000,
+        });
+        return;
+      }
+
+      /*  const data: iProduct = {
+        id: 0, // Si es nuevo producto, si es edición coloca el ID correspondiente
+        code: this.form.value.code,
+        name: this.form.value.name,
+        slug: this.form.value.slug,
+        description: this.form.value.description,
+        short_description: this.form.value.short_description || '', // Asignación con valor por defecto
+        images: this.form.value.images || [], // Valor por defecto array vacío
+        price: parseFloat(this.form.value.price).toString(),
+        sale_price: this.form.value.sale_price
+          ? parseFloat(this.form.value.sale_price).toString()
+          : '0',
+        cost_price: this.form.value.cost_price
+          ? parseFloat(this.form.value.cost_price).toString()
+          : '0',
+        stock_quantity: parseInt(this.form.value.stock_quantity, 10),
+        sku: this.form.value.sku || '',
+        barcode: this.form.value.barcode || '',
+        featured: !!this.form.value.featured, // Conversión a booleano
+        status: this.form.value.status,
         category_id: parseInt(this.form.value.category_id, 10),
         brand_id: parseInt(this.form.value.brand_id, 10),
-        price: parseFloat(this.form.value.price),
-        sale_price: parseFloat(this.form.value.sale_price || '0'),
-        cost_price: parseFloat(this.form.value.cost_price || '0'),
-        stock_quantity: parseInt(this.form.value.stock_quantity, 10),
-        featured: this.form.value.featured === true,
-      };
+        tags: this.form.value.tags
+          ? convertStringToArray(this.form.value.tags)
+          : [],
+        attributes: this.form.value.attributes
+          ? convertStringToArray(this.form.value.attributes)
+          : [],
+      }; */
+
+      // Crear FormData para envío con imágenes
+      const data = new FormData();
+
+      // Agregar campos del formulario
+      data.append('code', this.form.value.code);
+      data.append('name', this.form.value.name);
+      data.append('slug', this.form.value.slug);
+      data.append('description', this.form.value.description);
+      data.append('short_description', this.form.value.short_description || '');
+      data.append('price', this.form.value.price);
+      data.append('sale_price', this.form.value.sale_price || '');
+      data.append('cost_price', this.form.value.cost_price || '');
+      data.append('stock_quantity', this.form.value.stock_quantity);
+      data.append('sku', this.form.value.sku || '');
+      data.append('barcode', this.form.value.barcode || '');
+      data.append('featured', this.form.value.featured.toString());
+      data.append('status', this.form.value.status);
+      data.append('category_id', this.form.value.category_id);
+      data.append('brand_id', this.form.value.brand_id);
+
+      // Manejar tags y attributes como strings separados por comas
+      const tags = convertStringToArray(this.form.value.tags);
+      const attributes = convertStringToArray(this.form.value.attributes);
+
+      data.append('tags', JSON.stringify(tags));
+      data.append('attributes', JSON.stringify(attributes));
+
+      // Agregar imágenes
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      this.selectedFiles.forEach((file, index) => {
+        data.append('images', file);
+      });
+
+      console.log('FormData preparado para envío');
+      console.log(data);
 
       if (this.isCreateMode()) {
         this._productsService.create(data).subscribe({

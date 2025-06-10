@@ -21,9 +21,9 @@ export interface iProduct {
   brand_id: number;
   tags: string[];
   attributes: string[];
-  created_at: Date;
-  updated_at: Date;
-  deleted_at: null;
-  brand: iBrand;
-  category: iCategory;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted_at?: null;
+  brand?: iBrand;
+  category?: iCategory;
 }
