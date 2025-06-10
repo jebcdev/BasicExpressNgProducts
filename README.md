@@ -628,7 +628,7 @@ npm run format     # Formatear código con Prettier
 El sistema maneja upload de imágenes en:
 
 ```
-backend/public/uploads/
+backend/dist/public/uploads/
 ├── categories/    # Imágenes de categorías
 ├── brands/        # Imágenes de marcas
 └── products/      # Imágenes de productos
