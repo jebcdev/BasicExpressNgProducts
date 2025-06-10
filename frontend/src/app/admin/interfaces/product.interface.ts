@@ -9,9 +9,9 @@ export interface iProduct {
   description: string;
   short_description: string;
   images: string[];
-  price: string;
-  sale_price: string;
-  cost_price: string;
+  price: number;
+  sale_price: number;
+  cost_price: number;
   stock_quantity: number;
   sku: string;
   barcode: string;
